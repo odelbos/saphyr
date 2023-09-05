@@ -1,0 +1,30 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+# rspec failure tracking
+.rspec_status
+
+# Ignore Ruby version and gemset
+.rvmrc
+.ruby-version
+.ruby-gemset
+
+# Ignore OSX files
+.DS_Store
+
+# Editors and IDE
+.idea
+.vscode
+*~
+
+# Emacs
+.#*
+
+# Vim
+**.sw?
