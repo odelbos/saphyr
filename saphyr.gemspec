@@ -9,18 +9,19 @@ Gem::Specification.new do |spec|
   spec.email = ["od@phibox.com"]
 
   spec.summary = "The saphyr gem is used to validate JSON document."
-  spec.description = "The purpose of Saphyr is to provide a nice and simple DSL to easily and quickly design a validation schema."
-  spec.homepage = "https://github.com/odelbos/saphyr"
+  spec.description = "The purpose of Saphyr is to provide a nice and simple DSL to easily and quickly design a validation schema for JSON document."
+  spec.homepage = "https://https://github.com/odelbos/saphyr"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
 
-    spec.metadata = {
+  spec.metadata = {
     "homepage_uri"     => spec.homepage,
     "source_code_uri"  => "https://github.com/odelbos/saphyr",
     "changelog_uri"    => "https://github.com/odelbos/saphyr/CHANGELOG",
   }
 
   spec.files = Dir['lib/**/*'] + %w(CHANGELOG LICENSE)
+  spec.extra_rdoc_files = ['CHANGELOG', 'LICENSE']
 
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
