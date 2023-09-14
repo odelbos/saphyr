@@ -93,3 +93,4 @@ end
 
 require_relative './fields/string_field'
 require_relative './fields/integer_field'
+require_relative './fields/float_field'
