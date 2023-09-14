@@ -111,4 +111,5 @@ require_relative './saphyr/engine'
 #
 Saphyr.register do
   field_type :string, Saphyr::Fields::StringField
+  field_type :integer, Saphyr::Fields::IntegerField
 end
