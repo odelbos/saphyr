@@ -6,6 +6,13 @@ module Saphyr
       # @note You must Override this class constants in your field type class
       PREFIX = 'base'
 
+      include Saphyr::AssertHelpers
+      include Saphyr::AssertErrorConstants
+      include Saphyr::AssertBaseHelpers
+      include Saphyr::AssertSizeHelpers
+      include Saphyr::AssertNumericHelpers
+      include Saphyr::AssertStringHelpers
+
       # A hash containing the options of the field.
       attr_reader :opts
 
@@ -27,12 +34,6 @@ module Saphyr
           end
         end
         @opts = DEFAULT_OPT_VALUES.merge opts
-      end
-
-      # -----
-
-      def boolean?(value)
-        value.is_a? TrueClass or value.is_a? FalseClass
       end
 
       # -----
