@@ -99,7 +99,7 @@ module Saphyr
 
           unless data.key? name
             next unless @ctx.schema.strict?
-            if field.is_required?
+            if field.required?
               @ctx.errors << {
                 path: field_path,
                 errors: [
