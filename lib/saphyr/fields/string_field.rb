@@ -13,7 +13,7 @@ module Saphyr
           unless value.is_a? String
             errors << {
               type: err('type'),
-              msg: "Expecting type '#{klass.to_s}', got: #{value.class.name}",
+              msg: "Expecting type 'String', got: #{value.class.name}",
               data: {
                 expect: 'String',
                 got: value.class.name,
