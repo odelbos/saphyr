@@ -15,9 +15,9 @@ module Saphyr
           unless value.is_a? Integer
             errors << {
               type: err('type'),
-              msg: "Expecting type 'Interger', got: #{value.class.name}",
+              msg: "Expecting type 'Integer', got: #{value.class.name}",
               data: {
-                expect: 'Interger',
+                expect: 'Integer',
                 got: value.class.name,
               }
             }
