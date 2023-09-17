@@ -80,7 +80,7 @@ module Saphyr
     # @param opts [Hash] A hash of options to pass to the field type instance.
     # @return [Field Type Object] An instance of the field type.
     # @api public
-    def instanciate_field_type(type, opts)
+    def instanciate_field_type(type, opts={})
       klass = @field_types[type]
       raise Saphyr::Error.new "Unknown field : #{type}" if klass.nil?
       Object.const_get(klass.name).new opts
