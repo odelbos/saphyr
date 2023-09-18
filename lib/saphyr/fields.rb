@@ -22,7 +22,7 @@ module Saphyr
       # @api private
       DEFAULT_OPTS = DEFAULT_OPT_VALUES.keys.freeze
 
-      def initialize(opts)
+      def initialize(opts={})
         if opts.key? :required
           unless boolean? opts[:required]
             raise Saphyr::Error.new "Option ':required' must be a Boolean"
