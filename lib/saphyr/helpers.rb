@@ -14,6 +14,7 @@ module Saphyr
   # ------------------------------------------------------
   module AssertErrorConstants
     # Base
+    ERR_NOT_NULLABLE = 'not-nullable'
     ERR_BAD_FORMAT = 'bad-format'
     ERR_TYPE = 'type'
     ERR_IN = 'in'
