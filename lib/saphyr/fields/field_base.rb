@@ -1,5 +1,6 @@
 module Saphyr
   module Fields
+
     class FieldBase
       # Prefix use to format error code
       # @note You must Override this class constants in your field type class
