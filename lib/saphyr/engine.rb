@@ -117,6 +117,25 @@ module Saphyr
           end
 
           value = data[name]
+
+          if value.nil?
+            unless field.nullable?
+              @ctx.errors << {
+                path: field_path,
+                errors: [
+                  {
+                    type: Saphyr::Fields::FieldBase::ERR_NOT_NULLABLE,
+                    msg: 'Not nullable',
+                    data: {
+                      field: name,
+                    }
+                  }
+                ],
+              }
+            end
+            next
+          end
+
           errors = field.validate @ctx, name, value
           unless errors.size == 0
             @ctx.errors << {

@@ -70,15 +70,8 @@ module Saphyr
       # @param name [String] The field name.
       # @param value [String] The field value.
       def validate(ctx, name, value)
+        # NOTE: Nullable is handle be the engine.
         errors = []
-        if value.is_a? NilClass
-          return  errors if nullable?
-          errors << {
-            type: ERR_NOT_NULLABLE,
-            msg: 'Not nullable',
-          }
-          return errors
-        end
         do_validate ctx, name, value, errors
         errors
       end
