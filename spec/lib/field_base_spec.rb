@@ -65,6 +65,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
     context 'when subclass' do
       it 'returns the prefix' do
         # subject { SaphyrTest::FieldTest.new }   # NOTE: Don't works
+        # expect{ subject.prefix }.to eq 'test'
         # expect(subject.prefix).to eq 'test'
         field = SaphyrTest::FieldTest.new
         expect(field.prefix).to eq 'test'
@@ -144,6 +145,20 @@ RSpec.describe Saphyr::Fields::FieldBase do
     context 'with invalid data' do
       it 'returns false' do
         expect(validator.validate invalid_data).to be false
+      end
+    end
+  end
+
+  describe 'private methods' do
+    describe '#do_validate' do
+      it 'must respond' do
+        subject { described_class.new }
+        expect(subject.respond_to?(:do_validate, true)).to be true
+      end
+
+      it 'must raise not implemented' do
+        subject { described_class.new }
+        expect{ subject.send :do_validate, nil, nil, nil, nil }.to raise_error Saphyr::Error
       end
     end
   end
