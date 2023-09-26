@@ -38,7 +38,6 @@ RSpec.describe Saphyr::Engine do
 
   describe '#find_schema' do
     it 'returns the schema from local validators if found' do
-      # validator = double "LocalValidator"
       allow(validator).to receive(:find_schema).with(:schema_name).and_return schema
       context.instance_variable_set :@validators, [validator]
       expect(context.find_schema(:schema_name)).to eq schema
