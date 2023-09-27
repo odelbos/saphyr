@@ -27,9 +27,6 @@ RSpec.describe Saphyr::Fields::StringField do
 
   describe '#do_validate' do
     let(:errors) { [] }
-    let(:valid_data) { { "name" => 'my item', } }
-    let(:invalid_type_data) { { "name" => 3, } }
-    let(:invalid_values_data) { { "name" => 'err', } }
 
     subject { described_class.new }
 
