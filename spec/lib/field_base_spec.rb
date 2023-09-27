@@ -3,12 +3,11 @@
 RSpec.describe Saphyr::Fields::FieldBase do
   describe 'class' do
     subject { described_class }
-    it { is_expected.to include Saphyr::AssertHelpers }
-    it { is_expected.to include Saphyr::AssertErrorConstants }
-    it { is_expected.to include Saphyr::AssertBaseHelpers }
-    it { is_expected.to include Saphyr::AssertSizeHelpers }
-    it { is_expected.to include Saphyr::AssertNumericHelpers }
-    it { is_expected.to include Saphyr::AssertStringHelpers }
+    it { is_expected.to include Saphyr::Asserts::ErrorConstants }
+    it { is_expected.to include Saphyr::Asserts::BaseAssert }
+    it { is_expected.to include Saphyr::Asserts::SizeAssert }
+    it { is_expected.to include Saphyr::Asserts::NumericAssert }
+    it { is_expected.to include Saphyr::Asserts::StringAssert }
   end
 
   it 'must hold options' do
@@ -135,6 +134,9 @@ RSpec.describe Saphyr::Fields::FieldBase do
     let(:validator) { SaphyrTest::OneFieldNoOptValidator.new }
     let(:valid_data) { { "name" => 'my item', } }
     let(:invalid_data) { { "name" => 3, } }
+
+    let(:missing_in_schema_data) { { "name" => 'my item', 'missing' => 'err' } }
+    let(:missing_in__data) { {} }
 
     context 'with valid data' do
       it 'returns true' do
