@@ -95,7 +95,7 @@ end
 #
 # Required files
 #
-require_relative './saphyr/helpers'
+require_relative './saphyr/asserts'
 require_relative './saphyr/fields'
 require_relative './saphyr/schema'
 require_relative './saphyr/validator'

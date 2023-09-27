@@ -6,12 +6,11 @@ module Saphyr
       # @note You must Override this class constants in your field type class
       PREFIX = 'base'
 
-      include Saphyr::AssertHelpers
-      include Saphyr::AssertErrorConstants
-      include Saphyr::AssertBaseHelpers
-      include Saphyr::AssertSizeHelpers
-      include Saphyr::AssertNumericHelpers
-      include Saphyr::AssertStringHelpers
+      include Saphyr::Asserts::ErrorConstants
+      include Saphyr::Asserts::BaseAssert
+      include Saphyr::Asserts::SizeAssert
+      include Saphyr::Asserts::NumericAssert
+      include Saphyr::Asserts::StringAssert
 
       # A hash containing the options of the field.
       attr_reader :opts
@@ -24,12 +23,12 @@ module Saphyr
 
       def initialize(opts={})
         if opts.key? :required
-          unless boolean? opts[:required]
+          unless assert_boolean? opts[:required]
             raise Saphyr::Error.new "Option ':required' must be a Boolean"
           end
         end
         if opts.key? :nullable
-          unless boolean? opts[:nullable]
+          unless assert_boolean? opts[:nullable]
             raise Saphyr::Error.new "Option ':nullable' must be a Boolean"
           end
         end
