@@ -37,6 +37,7 @@ RSpec.describe Saphyr::Fields::IntegerField do
 
     context 'assert base eq' do
       let (:assert_value) { 5 }
+      let (:assert_err_value) { 7 }
       it_behaves_like 'assert base eq'
     end
 

@@ -37,6 +37,7 @@ RSpec.describe Saphyr::Fields::FloatField do
 
     context 'assert base eq' do
       let (:assert_value) { 5.25 }
+      let (:assert_err_value) { 7.34 }
       it_behaves_like 'assert base eq'
     end
 
