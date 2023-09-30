@@ -10,8 +10,9 @@ RSpec.shared_examples 'assert base in' do
 
       context 'when valid data' do
         it 'return without error' do
-          v = assert_values.sample
-          subject.send :do_validate, nil, 'name', v, errors
+          assert_values.each do |v|
+            subject.send :do_validate, nil, 'name', v, errors
+          end
           expect(errors.size).to eq 0
         end
       end
