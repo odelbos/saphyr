@@ -25,56 +25,30 @@ RSpec.describe Saphyr::Fields::FloatField do
   #
 
   describe '#do_validate' do
+    let (:assert_prefix) { 'float' }
     let(:errors) { [] }
-
     subject { described_class.new }
 
-    context "assert type" do
-      context 'when valid data' do
-        it 'return without error' do
-          subject.send :do_validate, nil, 'ref', 3.14, errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        it 'return an error' do
-          subject.send :do_validate, nil, 'ref', 'err', errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'float:type'
-          expect(errors.first[:msg]).to eq "Expecting type 'Float', got: String"
-        end
-      end
+    context 'assert base class' do
+      let (:assert_value) { 5.25 }
+      let (:assert_err_value) { 'err' }
+      it_behaves_like 'assert base class'
     end
 
-    context "assert eq" do
-      subject {
-        d = described_class.new
-        m = d.opts.merge({ eq: 5.25 })
-        d.instance_variable_set :@opts, m
-        d
-      }
-
-      context 'when valid data' do
-        it 'return without error' do
-          subject.send :do_validate, nil, 'name', 5.25, errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        it 'return an error' do
-          subject.send :do_validate, nil, 'name', 8.12, errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'float:eq'
-          expect(errors.first[:msg]).to eq "Expecting value to be equals to: 5.25, got: 8.12"
-        end
-      end
+    context 'assert base eq' do
+      let (:assert_value) { 5.25 }
+      it_behaves_like 'assert base eq'
     end
 
-    #
-    # ...
-    #
+    context 'assert numric' do
+      let (:assert_value) { 5.25 }
+      it_behaves_like 'assert numeric'
+    end
 
+    context 'assert base in' do
+      let (:assert_values) { [3.14, 5.25, 7.48] }
+      let (:assert_err_value) { 15.67 }
+      it_behaves_like 'assert base in'
+    end
   end
 end
