@@ -5,6 +5,9 @@ require "saphyr"
 # Include global Validators and Fields shared with all tests.
 require_relative './globals.rb'
 
+# Load the shared examples.
+Dir[File.join('./spec/shared', '**', '*.rb')].sort.each { |f| require f }
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
