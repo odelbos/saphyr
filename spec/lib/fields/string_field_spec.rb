@@ -10,7 +10,6 @@ RSpec.describe Saphyr::Fields::StringField do
     end
   end
 
-
   #
   # TODO: Tests options
   #  if using :len then can't use other options ...
@@ -24,203 +23,41 @@ RSpec.describe Saphyr::Fields::StringField do
   # TODO: if have :min = :max then use :len
   #
 
-
   describe '#do_validate' do
+    let (:assert_prefix) { 'string' }
     let(:errors) { [] }
-
     subject { described_class.new }
 
-    context "assert type" do
-      context 'when valid data' do
-        it 'return without error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        it 'return an error' do
-          subject.send :do_validate, nil, 'name', 3, errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'string:type'
-          expect(errors.first[:msg]).to eq "Expecting type 'String', got: Integer"
-        end
-      end
+    context 'assert base class' do
+      let (:assert_value) { 'ok' }
+      let (:assert_err_value) { 3 }
+      it_behaves_like 'assert base class'
     end
 
-    context "assert eq" do
-      subject {
-        d = described_class.new
-        m = d.opts.merge({ eq: 'my item' })
-        d.instance_variable_set :@opts, m
-        d
-      }
-
-      context 'when valid data' do
-        it 'return without error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        it 'return an error' do
-          subject.send :do_validate, nil, 'name', 'err', errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'string:eq'
-          expect(errors.first[:msg]).to eq "Expecting value to be equals to: my item, got: err"
-        end
-      end
+    context 'assert base eq' do
+      let (:assert_value) { 'ok' }
+      let (:assert_err_value) { 'err' }
+      it_behaves_like 'assert base eq'
     end
 
-    context "assert size len" do
-      context 'when valid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ len: 7 })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return without error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ len: 3 })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return an error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'string:size-len'
-          expect(errors.first[:msg]).to eq "Expecting size equals to: 3, got: 7"
-        end
-      end
+    context 'assert size' do
+      let (:assert_value) { 'ok' }
+      let (:assert_inf_value) { 'o' }
+      let (:assert_sup_value) { 'sup' }
+      it_behaves_like 'assert size'
     end
 
-    context "assert size min" do
-      context 'when valid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ min: 3 })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return without error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ min: 15 })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return an error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'string:size-min'
-          expect(errors.first[:msg]).to eq "Expecting size >= 15, got: 7"
-        end
-      end
+    context 'assert base in' do
+      let (:assert_values) { ['ok', 'one', 'two'] }
+      let (:assert_err_value) { 'err' }
+      it_behaves_like 'assert base in'
     end
 
-    context "assert size max" do
-      context 'when valid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ max: 15 })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return without error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ max: 3 })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return an error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'string:size-max'
-          expect(errors.first[:msg]).to eq "Expecting size <= 3, got: 7"
-        end
-      end
-    end
-
-    context "assert in" do
-      context 'when valid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ in: ['ok', 'my item'] })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return without error' do
-          subject.send :do_validate, nil, 'name', 'my item', errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ in: ['ok', 'my item'] })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return an error' do
-          subject.send :do_validate, nil, 'name', 'err', errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'string:in'
-          expect(errors.first[:msg]).to eq "Expecting value to be in: [\"ok\", \"my item\"], got: err"
-        end
-      end
-    end
-
-    context "assert regexp" do
-      context 'when valid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ regexp: /^[a-z]+$/ })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return without error' do
-          subject.send :do_validate, nil, 'name', 'myitem', errors
-          expect(errors.size).to eq 0
-        end
-      end
-
-      context 'when invalid data' do
-        subject {
-          d = described_class.new
-          m = d.opts.merge({ regexp: /^[a-z]+$/ })
-          d.instance_variable_set :@opts, m
-          d
-        }
-        it 'return an error' do
-          subject.send :do_validate, nil, 'name', 'My Item3', errors
-          expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq 'string:regexp'
-          expect(errors.first[:msg]).to eq "Value failed to match regexp: (?-mix:^[a-z]+$), got: My Item3"
-        end
-      end
+    context 'assert string regexp' do
+      let (:assert_regexp) { /^[a-z]+$/ }
+      let (:assert_ok_value) { 'myitem' }
+      let (:assert_err_value) { 'My Item3' }
+      it_behaves_like 'assert string regexp'
     end
   end
 end
