@@ -59,14 +59,14 @@ RSpec.shared_examples 'assert numeric' do
       end
     end
 
-    context 'when invalid data' do
+    context 'when valid data' do
       subject {
         d = described_class.new
         m = d.opts.merge({ gte: assert_value })
         d.instance_variable_set :@opts, m
         d
       }
-      it 'return an error' do
+      it 'return without error' do
         subject.send :do_validate, nil, 'name', assert_value, errors
         expect(errors.size).to eq 0
       end
@@ -147,14 +147,14 @@ RSpec.shared_examples 'assert numeric' do
       end
     end
 
-    context 'when invalid data' do
+    context 'when valid data' do
       subject {
         d = described_class.new
         m = d.opts.merge({ lte: assert_value })
         d.instance_variable_set :@opts, m
         d
       }
-      it 'return an error' do
+      it 'return without error' do
         subject.send :do_validate, nil, 'name', assert_value, errors
         expect(errors.size).to eq 0
       end
