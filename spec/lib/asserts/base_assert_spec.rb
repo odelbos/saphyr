@@ -13,18 +13,18 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
   let (:errors) { [] }
   subject { test_class.new }
 
-  describe '#assert_boolean?' do
+  describe '#assert_boolean' do
     it 'returns true for TrueClass' do
-      expect(subject.assert_boolean?(true)).to be true
+      expect(subject.assert_boolean(true)).to be true
     end
 
     it 'returns true for FalseClass' do
-      expect(subject.assert_boolean?(false)).to be true
+      expect(subject.assert_boolean(false)).to be true
     end
 
     it 'returns false for other classes' do
-      expect(subject.assert_boolean?('string')).to be false
-      expect(subject.assert_boolean?(123)).to be false
+      expect(subject.assert_boolean('string')).to be false
+      expect(subject.assert_boolean(123)).to be false
     end
   end
 

@@ -2,7 +2,7 @@ module Saphyr
   module Asserts
 
     module BaseAssert
-      def assert_boolean? value
+      def assert_boolean value
         value.is_a? TrueClass or value.is_a? FalseClass
       end
 

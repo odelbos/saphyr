@@ -23,12 +23,12 @@ module Saphyr
 
       def initialize(opts={})
         if opts.key? :required
-          unless assert_boolean? opts[:required]
+          unless assert_boolean opts[:required]
             raise Saphyr::Error.new "Option ':required' must be a Boolean"
           end
         end
         if opts.key? :nullable
-          unless assert_boolean? opts[:nullable]
+          unless assert_boolean opts[:nullable]
             raise Saphyr::Error.new "Option ':nullable' must be a Boolean"
           end
         end
