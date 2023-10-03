@@ -21,6 +21,13 @@ module Saphyr
       # @api private
       DEFAULT_OPTS = DEFAULT_OPT_VALUES.keys.freeze
 
+      # NOTE: 
+      # Override following constants to manage options
+
+      # List of authorized options.
+      # @note Override this class constant if you want to use this feature.
+      AUTHORIZED_OPTIONS = []
+
       def initialize(opts={})
         if opts.key? :required
           unless assert_boolean opts[:required]
@@ -32,6 +39,16 @@ module Saphyr
             raise Saphyr::Error.new "Option ':nullable' must be a Boolean"
           end
         end
+
+        unless authorized_options.size == 0
+          opts.keys.each do |opt|
+            next if  opt == :required or opt == :nullable
+            unless authorized_options.include? opt
+              raise Saphyr::Error.new "Unauthorized option: #{opt}"
+            end
+          end
+        end
+
         @opts = DEFAULT_OPT_VALUES.merge opts
       end
 
@@ -41,6 +58,14 @@ module Saphyr
       # @return [String] The prefix
       def prefix
         self.class::PREFIX
+      end
+
+      # -----
+
+      # Get the +AUTHORIZED_OPTIONS+ options
+      # @return [Array] The option names
+      def authorized_options
+        self.class::AUTHORIZED_OPTIONS
       end
 
       # -----
@@ -69,7 +94,7 @@ module Saphyr
       # @param name [String] The field name.
       # @param value [String] The field value.
       def validate(ctx, name, value)
-        # NOTE: Nullable is handle be the engine.
+        # NOTE: Nullable is handle by the engine.
         errors = []
         do_validate ctx, name, value, errors
         errors
