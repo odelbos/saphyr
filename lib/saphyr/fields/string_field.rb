@@ -3,9 +3,11 @@ module Saphyr
 
     # The +string+ field type
     #
-    # Allowed options are: +:eq, :len, :min, :max, :regexp+.
+    # Allowed options are: +:eq, :len, :min, :max, :in, :regexp+.
     class StringField < FieldBase
       PREFIX = 'string'
+
+      AUTHORIZED_OPTIONS = [:eq, :len, :min, :max, :in, :regexp]
 
       private
 
