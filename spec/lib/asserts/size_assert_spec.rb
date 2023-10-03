@@ -14,13 +14,13 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
   subject { test_class.new }
 
   describe '#assert_size_len' do
-    it 'returns true if value is of the correct length' do
+    it 'return true if value size is correct' do
       expect(subject.assert_size_len(5, '12345', errors)).to be true
       expect(errors).to be_empty
     end
 
     context 'when no error code is provided' do
-      it 'returns false and adds an error if value is not of correct length' do
+      it 'return false and an error if value size is not correct' do
         expect(subject.assert_size_len(10, '12345', errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'size-len'
@@ -30,7 +30,7 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
     end
 
     context 'when a custom error code is provided' do
-      it 'returns false and adds an error if value is not of correct length' do
+      it 'return false and an error if value size is not correct' do
         expect(subject.assert_size_len(10, '12345', errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
@@ -41,18 +41,18 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
   end
 
   describe '#assert_size_min' do
-    it 'returns true if value is of minimum length' do
+    it 'return true if value size minimum is correct (> case)' do
       expect(subject.assert_size_min(3, '12345', errors)).to be true
       expect(errors).to be_empty
     end
 
-    it 'returns true if value is of minimum length or equals' do
+    it 'return true if value size minimum is correct (= case)' do
       expect(subject.assert_size_min(5, '12345', errors)).to be true
       expect(errors).to be_empty
     end
 
     context 'when no error code is provided' do
-      it 'returns false and adds an error if value is not of minimum length' do
+      it 'return false and an error if value size is not orrect' do
         expect(subject.assert_size_min(10, '12345', errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'size-min'
@@ -62,7 +62,7 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
     end
 
     context 'when a custom error code is provided' do
-      it 'returns false and adds an error if value is not of minimum length' do
+      it 'return false and an error if value size is not correct' do
         expect(subject.assert_size_min(10, '12345', errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
@@ -73,18 +73,18 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
   end
 
   describe '#assert_size_max' do
-    it 'returns true if value is of maximum length' do
+    it 'return true if value size maximum is correct (< case)' do
       expect(subject.assert_size_max(10, '12345', errors)).to be true
       expect(errors).to be_empty
     end
 
-    it 'returns true if value is of maximum length or equals' do
+    it 'return true if value size size maximum is correct (= case)' do
       expect(subject.assert_size_max(5, '12345', errors)).to be true
       expect(errors).to be_empty
     end
 
     context 'when no error code is provided' do
-      it 'returns false and adds an error if value is not of maximum length' do
+      it 'return false and an error if value size maximum is not correct' do
         expect(subject.assert_size_max(4, '12345', errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'size-max'
@@ -94,7 +94,7 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
     end
 
     context 'when a custom error code is provided' do
-      it 'returns false and adds an error if value is not of maximum length' do
+      it 'return false and an error if value size maximum is not correct' do
         expect(subject.assert_size_max(4, '12345', errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
