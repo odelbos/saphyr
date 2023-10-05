@@ -93,9 +93,9 @@ RSpec.describe Saphyr::Fields::IntegerField do
       end
     end
 
-    context 'when :lte > :gte' do
+    context 'when :gte > :lte' do
       it 'raise an exception' do
-        expect { described_class.new({ lte: 5, gte: 3 }) }.to raise_error Saphyr::Error
+        expect { described_class.new({ gte: 5, lte: 3 }) }.to raise_error Saphyr::Error
       end
     end
 
