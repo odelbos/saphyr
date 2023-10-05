@@ -28,6 +28,12 @@ module Saphyr
       # @note Override this class constant if you want to use this feature.
       AUTHORIZED_OPTIONS = []
 
+
+      # Definition of exclusive options
+      # @note Override this class constant if you want to use this feature.
+      EXCLUSIVE_OPTIONS = []
+
+
       def initialize(opts={})
         if opts.key? :required
           unless assert_boolean opts[:required]
@@ -49,6 +55,18 @@ module Saphyr
           end
         end
 
+        exclusive_options.each do |data|
+          opt, excluded = data
+          if opts.include? opt
+            if excluded.first == :_all_
+              excluded = authorized_options - [opt]
+            end
+            unless opts.keys.intersection(excluded).size == 0
+              raise Saphyr::Error.new "You can't use #{excluded.to_s} options, if you use #{excluded.to_s} options, if you use : :#{opt}"
+            end
+          end
+        end
+
         @opts = DEFAULT_OPT_VALUES.merge opts
       end
 
@@ -63,9 +81,15 @@ module Saphyr
       # -----
 
       # Get the +AUTHORIZED_OPTIONS+ options
-      # @return [Array] The option names
+      # @return [Array]
       def authorized_options
         self.class::AUTHORIZED_OPTIONS
+      end
+
+      # Get the +EXCLUSIVE_OPTIONS+ options
+      # @return [Array]
+      def exclusive_options
+        self.class::EXCLUSIVE_OPTIONS
       end
 
       # -----
