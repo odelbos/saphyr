@@ -26,33 +26,12 @@ module Saphyr
         [:gte, :lte],
       ]
 
-      def initialize(opts={})
-        super
-
-        if opts.key? :lt
-          lt = opts[:lt]
-          if opts.key? :gt
-            if lt >= opts[:gt]
-              raise Saphyr::Error.new "Option ':lt' cannot be >= to ':gt'"
-            end
-          end
-
-          if opts.key? :gte
-            if lt >= opts[:gte]
-              raise Saphyr::Error.new "Option ':lt' cannot be >= to ':gte'"
-            end
-          end
-        end
-
-        if opts.key? :lte
-          lte = opts[:lte]
-          if opts.key? :gt
-            if lte >= opts[:gt]
-              raise Saphyr::Error.new "Option ':lte' cannot be >= to ':gt'"
-            end
-          end
-        end
-      end
+      # Cannot have: gt >= lt ... and so on
+      NOT_SUP_OR_EQUALS_OPTIONS = [
+        [:gt, :lt],
+        [:gt, :lte],
+        [:gte, :lt],
+      ]
 
       private
 

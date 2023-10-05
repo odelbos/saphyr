@@ -72,24 +72,24 @@ RSpec.describe Saphyr::Fields::IntegerField do
       end
     end
 
-    context 'when :lt >= :gt' do
+    context 'when :gt >= :lt' do
       it 'raise an exception' do
-        expect { described_class.new({ lt: 5, gt: 3 }) }.to raise_error Saphyr::Error
-        expect { described_class.new({ lt: 5, gt: 5 }) }.to raise_error Saphyr::Error
+        expect { described_class.new({ gt: 5, lt: 3 }) }.to raise_error Saphyr::Error
+        expect { described_class.new({ gt: 5, lt: 5 }) }.to raise_error Saphyr::Error
       end
     end
 
-    context 'when :lt >= :gte' do
+    context 'when :gt >= :lte' do
       it 'raise an exception' do
-        expect { described_class.new({ lt: 5, gte: 3 }) }.to raise_error Saphyr::Error
-        expect { described_class.new({ lt: 5, gte: 5 }) }.to raise_error Saphyr::Error
+        expect { described_class.new({ gt: 5, lte: 3 }) }.to raise_error Saphyr::Error
+        expect { described_class.new({ gt: 5, lte: 5 }) }.to raise_error Saphyr::Error
       end
     end
 
-    context 'when :lte >= :gt' do
+    context 'when :gte >= :lt' do
       it 'raise an exception' do
-        expect { described_class.new({ lte: 5, gt: 3 }) }.to raise_error Saphyr::Error
-        expect { described_class.new({ lte: 5, gt: 5 }) }.to raise_error Saphyr::Error
+        expect { described_class.new({ gte: 5, lt: 3 }) }.to raise_error Saphyr::Error
+        expect { described_class.new({ gte: 5, lt: 5 }) }.to raise_error Saphyr::Error
       end
     end
 
