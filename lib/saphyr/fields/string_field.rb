@@ -15,19 +15,15 @@ module Saphyr
         [ :in, [:_all_] ],
       ]
 
-      def initialize(opts={})
-        super
+      # Cannot have: min == max, use :len instead
+      NOT_EQUALS_OPTIONS = [
+        [:min, :max],
+      ]
 
-        if opts.key? :min  and opts.key? :max
-          if opts[:min] > opts[:max]
-            raise Saphyr::Error.new "Option ':min' cannot be > to ':max'"
-          end
-
-          if opts[:min] == opts[:max]
-            raise Saphyr::Error.new "Option ':min' is equalds to ':max', use :len instead"
-          end
-        end
-      end
+      # Cannot have: min > max
+      NOT_SUP_OPTIONS = [
+        [:min, :max],
+      ]
 
       private
 
