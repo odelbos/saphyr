@@ -16,6 +16,23 @@ module Saphyr
         [ :lt, [:lte] ],
       ]
 
+      # Cannot have: lte == gte, use :eq instead
+      NOT_EQUALS_OPTIONS = [
+        [:lte, :gte],
+      ]
+
+      # Cannot have: gte > lte
+      NOT_SUP_OPTIONS = [
+        [:gte, :lte],
+      ]
+
+      # Cannot have: gt >= lt ... and so on
+      NOT_SUP_OR_EQUALS_OPTIONS = [
+        [:gt, :lt],
+        [:gt, :lte],
+        [:gte, :lt],
+      ]
+
       private
 
         def do_validate(ctx, name, value, errors)
