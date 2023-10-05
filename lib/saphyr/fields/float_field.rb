@@ -9,6 +9,13 @@ module Saphyr
 
       AUTHORIZED_OPTIONS = [:eq, :gt, :gte, :lt, :lte, :in]
 
+      EXCLUSIVE_OPTIONS = [
+        [ :eq, [:_all_] ],
+        [ :in, [:_all_] ],
+        [ :gt, [:gte] ],
+        [ :lt, [:lte] ],
+      ]
+
       private
 
         def do_validate(ctx, name, value, errors)
