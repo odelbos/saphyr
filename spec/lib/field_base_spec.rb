@@ -142,6 +142,33 @@ RSpec.describe Saphyr::Fields::FieldBase do
         end
       end
     end
+
+    context 'when NOT_SUP_OPTIONS is defined' do
+      let(:test_class) {
+        Class.new(Saphyr::Fields::FieldBase) {
+          self.const_set 'AUTHORIZED_OPTIONS', [:opt1, :opt2]
+          not_sup_options = [
+            [:opt1, :opt2],
+          ]
+          self.const_set 'NOT_SUP_OPTIONS', not_sup_options
+        }
+      }
+
+      context 'when provided options are correct' do
+        it 'create a new instance' do
+          field = test_class.new({ opt1: 3, opt2: 5 })
+          expect(field).to be_a Saphyr::Fields::FieldBase
+          expect(field.opts[:opt1]).to eq 3
+          expect(field.opts[:opt2]).to eq 5
+        end
+      end
+
+      context 'when provided options are not correct' do
+        it 'raise an exception' do
+          expect { test_class.new({ opt1: 5, opt2: 3 }) }.to raise_error Saphyr::Error
+        end
+      end
+    end
   end
 
   describe '#prefix' do
@@ -212,6 +239,34 @@ RSpec.describe Saphyr::Fields::FieldBase do
       it 'return the EXCLUSIVE_OPTIONS class constant' do
         expect(subject.exclusive_options).to be_an_instance_of Array
         expect(subject.exclusive_options.size).to eq 1
+      end
+    end
+  end
+
+  describe '#not_sup_options' do
+    context 'when base class' do
+      it 'return the NOT_SUP_OPTIONS class constant' do
+        subject { described_class.new }
+        expect(subject.not_sup_options).to be_an_instance_of Array
+        expect(subject.not_sup_options).to be_empty
+      end
+    end
+
+    context 'when subclass' do
+      let(:test_class) {
+        Class.new(Saphyr::Fields::FieldBase) {
+          self.const_set 'NOT_SUP_OPTIONS', [
+            [:opt1, :opt2],
+          ]
+        }
+      }
+      subject { test_class.new }
+
+      it 'return the AUTHORIZED_OPTIONS class constant' do
+        expect(subject.not_sup_options).to be_an_instance_of Array
+        expect(subject.not_sup_options.size).to eq 1
+        expect(subject.not_sup_options.first[0]).to eq :opt1
+        expect(subject.not_sup_options.first[1]).to eq :opt2
       end
     end
   end
