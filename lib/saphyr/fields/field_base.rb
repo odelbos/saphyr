@@ -32,6 +32,11 @@ module Saphyr
       # @note Override this class constant if you want to use this feature.
       EXCLUSIVE_OPTIONS = []
 
+      # List of options where value must not be equals to another option.
+      # (ex: min == max)
+      # @note Override this class constant if you want to use this feature.
+      NOT_EQUALS_OPTIONS = []
+
       # List of options where value must not be superior to another option.
       # (ex: lt > gt)
       # @note Override this class constant if you want to use this feature.
@@ -71,6 +76,15 @@ module Saphyr
           end
         end
 
+        not_equals_options.each do |data|
+          opt1, opt2 = data
+          if opts.include? opt1 and opts.include? opt2
+            if opts[opt1] == opts[opt2]
+              raise Saphyr::Error.new "Option '#{opt1} cannot be > to '#{opt2}'"
+            end
+          end
+        end
+
         not_sup_options.each do |data|
           opt1, opt2 = data
           if opts.include? opt1 and opts.include? opt2
@@ -103,6 +117,12 @@ module Saphyr
       # @return [Array]
       def exclusive_options
         self.class::EXCLUSIVE_OPTIONS
+      end
+
+      # Get the +NOT_EQUALS_OPTIONS+ options
+      # @return [Array]
+      def not_equals_options
+        self.class::NOT_EQUALS_OPTIONS
       end
 
       # Get the +NOT_SUP_OPTIONS+ options
