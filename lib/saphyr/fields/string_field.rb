@@ -15,6 +15,20 @@ module Saphyr
         [ :in, [:_all_] ],
       ]
 
+      def initialize(opts={})
+        super
+
+        if opts.key? :min  and opts.key? :max
+          if opts[:min] > opts[:max]
+            raise Saphyr::Error.new "Option ':min' cannot be > to ':max'"
+          end
+
+          if opts[:min] == opts[:max]
+            raise Saphyr::Error.new "Option ':min' is equalds to ':max', use :len instead"
+          end
+        end
+      end
+
       private
 
         def do_validate(ctx, name, value, errors)

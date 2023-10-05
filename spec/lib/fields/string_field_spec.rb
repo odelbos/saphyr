@@ -6,22 +6,64 @@ RSpec.describe Saphyr::Fields::StringField do
     it 'must have a prefix' do
       subject { described_class }
       expect(subject.class.const_get(:PREFIX)).to eq 'string'
-      # expect(Saphyr::Fields::StringField::PREFIX).to eq 'string'
     end
   end
 
-  #
-  # TODO: Tests options
-  #  if using :len then can't use other options ...
-  #
+  describe '.initialize' do
+    let(:authorized_opts) { [:eq, :len, :min, :max, :in, :regexp] }
 
-  #
-  # TODO: Can't have :min > :max
-  #
+    context 'authorized options' do
+      it 'accept any valid options' do
+        authorized_opts.each do |opt|
+          field = described_class.new({ opt => 1 })
+          expect(field).to be_a Saphyr::Fields::StringField
+          expect(field.opts[opt]).to eq 1
+        end
+      end
 
-  #
-  # TODO: if have :min = :max then use :len
-  #
+      it 'raise an exception for invalid option' do
+        expect { described_class.new({ err: 1 }) }.to raise_error Saphyr::Error
+      end
+    end
+
+    context 'if use :eq then cannot use any other options' do
+      it 'raise an exception for invalid option' do
+        authorized_opts.each do |opt|
+          next if opt == :eq
+          expect { described_class.new({ eq: 1, opt => 2 }) }.to raise_error Saphyr::Error
+        end
+      end
+    end
+
+    context 'if use :in then cannot use any other options' do
+      it 'raise an exception for invalid option' do
+        authorized_opts.each do |opt|
+          next if opt == :in
+          expect { described_class.new({ in: [], opt => 2 }) }.to raise_error Saphyr::Error
+        end
+      end
+    end
+
+    context 'if use :len then cannot use :eq, :min, :max, :in options' do
+      it 'raise an exception for invalid option' do
+        [:eq, :min, :max, :in].each do |opt|
+          expect { described_class.new({ len: 1, opt => 2 }) }.to raise_error Saphyr::Error
+        end
+      end
+    end
+
+    context 'when :min > :max' do
+      it 'raise an exception' do
+        expect { described_class.new({ min: 5, max: 3 }) }.to raise_error Saphyr::Error
+      end
+    end
+
+    context 'when :min = :max' do
+      it 'raise an exception' do
+        expect { described_class.new({ min: 5, max: 5 }) }.to raise_error Saphyr::Error
+      end
+    end
+  end
 
   describe '#do_validate' do
     let (:assert_prefix) { 'string' }
