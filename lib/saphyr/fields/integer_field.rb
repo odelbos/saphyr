@@ -16,6 +16,46 @@ module Saphyr
         [ :lt, [:lte] ],
       ]
 
+      def initialize(opts={})
+        super
+
+        if opts.key? :lt
+          lt = opts[:lt]
+          if opts.key? :gt
+            if lt >= opts[:gt]
+              raise Saphyr::Error.new "Option ':lt' cannot be >= to ':gt'"
+            end
+          end
+
+          if opts.key? :gte
+            if lt >= opts[:gte]
+              raise Saphyr::Error.new "Option ':lt' cannot be >= to ':gte'"
+            end
+          end
+        end
+
+        if opts.key? :lte
+          lte = opts[:lte]
+          if opts.key? :gt
+            if lte >= opts[:gt]
+              raise Saphyr::Error.new "Option ':lte' cannot be >= to ':gt'"
+            end
+          end
+
+          if opts.key? :gte
+            if lte > opts[:gte]
+              raise Saphyr::Error.new "Option ':lte' cannot be > to ':gte'"
+            end
+          end
+        end
+
+        if opts.key? :lte and opts.key? :gte
+          if opts[:lte] == opts[:gte]
+            raise Saphyr::Error.new "Option ':lte' is equalds to ':gte', use ':eq' instead"
+          end
+        end
+      end
+
       private
 
         def do_validate(ctx, name, value, errors)
