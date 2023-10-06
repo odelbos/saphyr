@@ -6,24 +6,8 @@ RSpec.describe Saphyr::Fields::IntegerField do
     it 'must have a prefix' do
       subject { described_class }
       expect(subject.class.const_get(:PREFIX)).to eq 'integer'
-      # expect(Saphyr::Fields::StringField::PREFIX).to eq 'string'
     end
   end
-
-  #
-  # TODO: Tests options
-  #  if using :len then can't use other options ...
-  #
-
-  #
-  # TODO: Can't have :lt > :gt
-  # Can't have :lte > :gte
-  #
-
-  #
-  # TODO: if have :lte = :gte then use :aq
-  #
-
 
   describe '.initialize' do
     let(:authorized_opts) { [:eq, :gt, :gte, :lt, :lte, :in] }
