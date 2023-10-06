@@ -21,6 +21,18 @@ RSpec.describe Saphyr::Engine do
     end
   end
 
+  describe '#derive' do
+    let(:new_schema) { double('Saphyr::Schema') }
+    it 'create a new context' do
+      new_context = context.derive new_schema, { 'name' => 'ok' }, 'new_path'
+      expect(new_context).to be_an_instance_of Saphyr::Engine::Context
+      expect(new_context.schema).to eq new_schema
+      expect(new_context.fragment).to be_an_instance_of Hash
+      expect(new_context.fragment['name']).to eq 'ok'
+      expect(new_context.get_path 'base').to eq 'new_path.base'
+    end
+  end
+
   describe '#get_path' do
     context 'when path is the root' do
       it 'returns the correct path' do

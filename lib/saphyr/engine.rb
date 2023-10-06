@@ -20,6 +20,14 @@ module Saphyr
         @errors = errors
       end
 
+      # Create a new context derived from the current one.
+      # @param schema [Saphyr::Schema] The schema associated with the new context.
+      # @param fragment [Hash] The data fragment.
+      # @param path [String] The path of the new context.
+      def derive(schema, fragment, path)
+        Context.new @validators, schema, @data, fragment, path, @errors
+      end
+
       # Get the current field path from the root of the document.
       # @return [String]
       def get_path(name)
