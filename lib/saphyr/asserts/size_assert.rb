@@ -3,7 +3,6 @@ module Saphyr
 
     module SizeAssert
       def assert_size_len opt_value, value, errors, error_code=Fields::FieldBase::ERR_SIZE_LEN
-        # assert_size_eq opt_value, value, errors, error_code
         return nil if opt_value.nil?
         unless value.size == opt_value
           errors << {
