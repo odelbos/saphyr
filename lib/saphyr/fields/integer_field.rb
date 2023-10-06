@@ -16,7 +16,7 @@ module Saphyr
         [ :lt, [:lte] ],
       ]
 
-      # Cannot have: lte == gte, use :eq instead
+      # Cannot have: lte == gte, use +:eq+ instead
       NOT_EQUALS_OPTIONS = [
         [:lte, :gte],
       ]

@@ -15,7 +15,7 @@ module Saphyr
         [ :in, [:_all_] ],
       ]
 
-      # Cannot have: min == max, use :len instead
+      # Cannot have: min == max, use +:len+ instead
       NOT_EQUALS_OPTIONS = [
         [:min, :max],
       ]
