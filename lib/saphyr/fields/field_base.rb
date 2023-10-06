@@ -28,6 +28,10 @@ module Saphyr
       # @note Override this class constant if you want to use this feature.
       AUTHORIZED_OPTIONS = []
 
+      # Require one and only of the listed options.
+      # @note Override this class constant if you want to use this feature.
+      REQUIRED_ONE_OF_OPTIONS = []
+
       # Definition of exclusive options
       # @note Override this class constant if you want to use this feature.
       EXCLUSIVE_OPTIONS = []
@@ -69,6 +73,22 @@ module Saphyr
           end
         end
 
+        unless required_one_of_options.size == 0
+          status, selected = false, nil
+          required_one_of_options.each do |opt|
+            if opts.include? opt
+              if status
+                raise Saphyr::Error.new "You can't provide both options at same time: '#{selected}' and '#{opt}'"
+              end
+              status = true
+              selected = opt
+            end
+          end
+          unless status
+            raise Saphyr::Error.new "You must provide one of the following options: '#{required_one_of_options.to_s}'"
+          end
+        end
+
         exclusive_options.each do |data|
           opt, excluded = data
           if opts.include? opt
@@ -76,7 +96,7 @@ module Saphyr
               excluded = authorized_options - [opt]
             end
             unless opts.keys.intersection(excluded).size == 0
-              raise Saphyr::Error.new "You can't use #{excluded.to_s} options, if you use #{excluded.to_s} options, if you use : :#{opt}"
+              raise Saphyr::Error.new "You can't use #{excluded.to_s} options, if you use #{opt.to_s} options, if you use : :#{opt}"
             end
           end
         end
@@ -125,6 +145,12 @@ module Saphyr
       # @return [Array]
       def authorized_options
         self.class::AUTHORIZED_OPTIONS
+      end
+
+      # Get the +REQUIRED_ONE_OF_OPTIONS+ options
+      # @return [Array]
+      def required_one_of_options
+        self.class::REQUIRED_ONE_OF_OPTIONS
       end
 
       # Get the +EXCLUSIVE_OPTIONS+ options
