@@ -19,10 +19,10 @@ end
 #
 class ItemValidator < Saphyr::Validator
   schema :upload do
-    field :id,          :integer,  gte: 1
-    field :name,        :string,   min: 7, max: 10
-    field :mime,        :string,   in: ['image/jpeg', 'image/png', 'image/gif']
-    field :size,        :integer,  gte: 1         # Size cannot be 0 byte
+    field :id,    :integer,  gte: 1
+    field :name,  :string,   min: 7, max: 10
+    field :mime,  :string,   in: ['image/jpeg', 'image/png', 'image/gif']
+    field :size,  :integer,  gte: 1         # Size cannot be 0 byte
   end
 
   field :id,       :integer,  gte: 1
