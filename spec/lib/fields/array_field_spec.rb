@@ -84,8 +84,26 @@ RSpec.describe Saphyr::Fields::ArrayField do
   end
 
   describe '#do_validate' do
-    let (:assert_prefix) { 'array' }
-    let(:errors) { [] }
-    subject { described_class.new }
+    let(:validator) { SaphyrTest::ArrayValidator.new }
+
+    let(:valid_data) {
+      { "type" => [1, 2, 3], }
+    }
+
+    let(:invalid_data) {
+      { "type" => ['err', 'bad', 'bug'], }
+    }
+
+    context 'with valid data' do
+      it 'return true' do
+        expect(validator.validate valid_data).to be true
+      end
+    end
+
+    context 'with invalid data' do
+      it 'return false' do
+        expect(validator.validate invalid_data).to be false
+      end
+    end
   end
 end

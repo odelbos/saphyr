@@ -29,6 +29,10 @@ module SaphyrTest
     # TODO: Add some different fields with options
   end
 
+  class ArrayValidator < Saphyr::Validator
+    field :type, :array, of_type: :integer
+  end
+
   class SchemaValidator < Saphyr::Validator
     schema :file do
       field :name, :string
