@@ -29,6 +29,14 @@ module SaphyrTest
     # TODO: Add some different fields with options
   end
 
+  class SchemaValidator < Saphyr::Validator
+    schema :file do
+      field :name, :string
+    end
+
+    field :upload, :schema, name: :file
+  end
+
   # -----------------------------------------------------
   # Fields
   # -----------------------------------------------------

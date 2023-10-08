@@ -106,6 +106,9 @@ require_relative './saphyr/engine'
 # Register default field types.
 #
 Saphyr.register do
+  field_type :array, Saphyr::Fields::ArrayField
+  field_type :schema, Saphyr::Fields::SchemaField
+
   field_type :string, Saphyr::Fields::StringField
   field_type :integer, Saphyr::Fields::IntegerField
   field_type :float, Saphyr::Fields::FloatField
