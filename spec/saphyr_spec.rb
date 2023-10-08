@@ -19,6 +19,16 @@ RSpec.describe Saphyr do
       is_expected.to respond_to :register
     end
 
+    it 'must have a :array field type' do
+      field_types = Saphyr.config.field_types
+      expect(field_types[:array].name).to eq('Saphyr::Fields::ArrayField')
+    end
+
+    it 'must have a :schema field type' do
+      field_types = Saphyr.config.field_types
+      expect(field_types[:schema].name).to eq('Saphyr::Fields::SchemaField')
+    end
+
     it 'must have a :string field type' do
       field_types = Saphyr.config.field_types
       expect(field_types[:string].name).to eq('Saphyr::Fields::StringField')
