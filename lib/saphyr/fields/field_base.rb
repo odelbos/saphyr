@@ -28,6 +28,10 @@ module Saphyr
       # @note Override this class constant if you want to use this feature.
       AUTHORIZED_OPTIONS = []
 
+      # List of required options.
+      # @note Override this class constant if you want to use this feature.
+      REQUIRED_OPTIONS = []
+
       # Require one and only of the listed options.
       # @note Override this class constant if you want to use this feature.
       REQUIRED_ONE_OF_OPTIONS = []
@@ -70,6 +74,12 @@ module Saphyr
             unless authorized_options.include? opt
               raise Saphyr::Error.new "Unauthorized option: #{opt}"
             end
+          end
+        end
+
+        required_options.each do |opt|
+          unless opts.include? opt
+            raise Saphyr::Error.new "Missing required option: '#{opt}'"
           end
         end
 
@@ -145,6 +155,12 @@ module Saphyr
       # @return [Array]
       def authorized_options
         self.class::AUTHORIZED_OPTIONS
+      end
+
+      # Get the +REQUIRED_OPTIONS+ options
+      # @return [Array]
+      def required_options
+        self.class::REQUIRED_OPTIONS
       end
 
       # Get the +REQUIRED_ONE_OF_OPTIONS+ options
