@@ -59,6 +59,18 @@ RSpec.describe Saphyr do
         expect(field_types[:custom_field].name).to eq('CustomField')
       end
 
+      context 'when registering :array field type' do
+        it 'raise an exception' do
+          expect { Saphyr.config.field_type(:array, nil) }.to raise_error Saphyr::Error
+        end
+      end
+
+      context 'when registering :schema field type' do
+        it 'raise an exception' do
+          expect { Saphyr.config.field_type(:schema, nil) }.to raise_error Saphyr::Error
+        end
+      end
+
       it 'registers a new schema' do
         Saphyr.register do
           schema :custom do

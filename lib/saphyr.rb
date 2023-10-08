@@ -39,7 +39,10 @@ module Saphyr
 
     def initialize()
       @schemas = {}
-      @field_types = {}
+      @field_types = {
+        array: Saphyr::Fields::ArrayField,
+        schema: Saphyr::Fields::SchemaField,
+      }
     end
 
     # ---------------------------------------------------- DSL
