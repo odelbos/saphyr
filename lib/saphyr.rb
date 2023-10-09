@@ -53,6 +53,8 @@ module Saphyr
     # @param name [String, Symbol] The field type name
     # @param klass [Class] The class used to handle the field type
     def field_type(name, klass)
+      raise Saphyr::Error.new "Cannot overwrite ':array' field" if name == :array
+      raise Saphyr::Error.new "Cannot overwrite ':schema' field" if name == :schema
       @field_types[name] = klass
     end
 
@@ -109,9 +111,6 @@ require_relative './saphyr/engine'
 # Register default field types.
 #
 Saphyr.register do
-  field_type :array, Saphyr::Fields::ArrayField
-  field_type :schema, Saphyr::Fields::SchemaField
-
   field_type :string, Saphyr::Fields::StringField
   field_type :integer, Saphyr::Fields::IntegerField
   field_type :float, Saphyr::Fields::FloatField
