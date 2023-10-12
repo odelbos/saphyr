@@ -22,8 +22,8 @@ RSpec.shared_examples 'assert base in' do
           subject.send :do_validate, nil, 'name', assert_err_value, errors
           expect(errors.size).to eq 1
           expect(errors.first[:type]).to eq assert_prefix + ':in'
-          # TODO: How to test msg?
-          # expect(errors.first[:msg]).to eq "Expecting value to be equals to: #{assert_value}, got: #{assert_value + 1}"
+          expect(errors.first[:data][:_val]).to eq assert_err_value
+          expect(errors.first[:data][:in]).to eq assert_values
         end
       end
     end

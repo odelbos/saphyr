@@ -19,7 +19,8 @@ RSpec.shared_examples 'assert size' do
         subject.send :do_validate, nil, 'name', assert_inf_value, errors
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq assert_prefix + ':size-len'
-        expect(errors.first[:msg]).to eq "Expecting size equals to: #{assert_value.size}, got: #{assert_inf_value.size}"
+        expect(errors.first[:data][:_val]).to eq assert_inf_value
+        expect(errors.first[:data][:len]).to eq assert_value.size
       end
     end
   end
@@ -62,8 +63,8 @@ RSpec.shared_examples 'assert size' do
         subject.send :do_validate, nil, 'name', assert_inf_value, errors
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq assert_prefix + ':size-min'
-        # TODO: Test msg?
-        # expect(errors.first[:msg]).to eq "Expecting value <= #{assert_value}, got: #{assert_value + 1}"
+        expect(errors.first[:data][:_val]).to eq assert_inf_value
+        expect(errors.first[:data][:min]).to eq assert_value.size
       end
     end
   end
@@ -106,8 +107,8 @@ RSpec.shared_examples 'assert size' do
         subject.send :do_validate, nil, 'name', assert_sup_value, errors
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq assert_prefix + ':size-max'
-        # TODO: Test msg?
-        # expect(errors.first[:msg]).to eq "Expecting value <= #{assert_value}, got: #{assert_value + 1}"
+        expect(errors.first[:data][:_val]).to eq assert_sup_value
+        expect(errors.first[:data][:max]).to eq assert_value.size
       end
     end
   end
