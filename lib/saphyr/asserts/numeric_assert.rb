@@ -7,7 +7,10 @@ module Saphyr
         if value <= opt_value
           errors << {
             type: err(error_code),
-            msg: "Expecting value > #{opt_value}, got: #{value}",
+            data: {
+              _val: value,
+              gt: opt_value,
+            }
           }
           return false
         end
@@ -19,7 +22,10 @@ module Saphyr
         if value < opt_value
           errors << {
             type: err(error_code),
-            msg: "Expecting value >= #{opt_value}, got: #{value}",
+            data: {
+              _val: value,
+              gte: opt_value,
+            }
           }
           return false
         end
@@ -31,7 +37,10 @@ module Saphyr
         if value >= opt_value
           errors << {
             type: err(error_code),
-            msg: "Expecting value < #{opt_value}, got: #{value}",
+            data: {
+              _val: value,
+              lt: opt_value,
+            }
           }
           return false
         end
@@ -43,7 +52,10 @@ module Saphyr
         if value > opt_value
           errors << {
             type: err(error_code),
-            msg: "Expecting value <= #{opt_value}, got: #{value}",
+            data: {
+              _val: value,
+              lte: opt_value,
+            }
           }
           return false
         end
