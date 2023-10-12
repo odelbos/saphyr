@@ -39,8 +39,8 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
         expect(subject.assert_class(String, 0, errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'type'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:type]).to eq 'String'
+        expect(errors.first[:data][:got]).to eq 'Integer'
       end
     end
 
@@ -49,8 +49,8 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
         expect(subject.assert_class(String, 0, errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:type]).to eq 'String'
+        expect(errors.first[:data][:got]).to eq 'Integer'
       end
     end
   end
@@ -66,8 +66,8 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
         expect(subject.assert_eq(5, 10, errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'eq'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq 10
+        expect(errors.first[:data][:eq]).to eq 5
       end
     end
 
@@ -76,8 +76,8 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
         expect(subject.assert_eq(5, 10, errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq 10
+        expect(errors.first[:data][:eq]).to eq 5
       end
     end
   end
@@ -97,6 +97,8 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
         expect(errors.first[:type]).to eq 'in'
         #
         # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq 4
+        expect(errors.first[:data][:in]).to eq [1, 2, 3]
       end
     end
 

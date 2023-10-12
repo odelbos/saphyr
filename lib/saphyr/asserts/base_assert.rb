@@ -11,6 +11,10 @@ module Saphyr
           errors << {
             type: err(error_code),
             msg: "Expecting type '#{klass.to_s}', got: #{value.class.name}",
+            data: {
+              type: klass.to_s,
+              got: value.class.name,
+            }
           }
           return false
         end
@@ -22,7 +26,10 @@ module Saphyr
         unless value == opt_value
           errors << {
             type: err(error_code),
-            msg: "Expecting value to be equals to: #{opt_value}, got: #{value}",
+            data: {
+              _val: value,
+              eq: opt_value,
+            }
           }
           return false
         end
@@ -34,7 +41,10 @@ module Saphyr
         unless opt_values.include? value
           errors << {
             type: err(error_code),
-            msg: "Expecting value to be in: #{opt_values.to_s}, got: #{value}",
+            data: {
+              _val: value,
+              in: opt_values,
+            }
           }
           return false
         end
