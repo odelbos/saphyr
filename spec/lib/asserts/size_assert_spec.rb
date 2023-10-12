@@ -24,8 +24,9 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
         expect(subject.assert_size_len(10, '12345', errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'size-len'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq '12345'
+        expect(errors.first[:data][:len]).to eq 10
+        expect(errors.first[:data][:got]).to eq 5
       end
     end
 
@@ -34,8 +35,9 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
         expect(subject.assert_size_len(10, '12345', errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq '12345'
+        expect(errors.first[:data][:len]).to eq 10
+        expect(errors.first[:data][:got]).to eq 5
       end
     end
   end
@@ -56,8 +58,9 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
         expect(subject.assert_size_min(10, '12345', errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'size-min'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq '12345'
+        expect(errors.first[:data][:min]).to eq 10
+        expect(errors.first[:data][:got]).to eq 5
       end
     end
 
@@ -88,8 +91,9 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
         expect(subject.assert_size_max(4, '12345', errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'size-max'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq '12345'
+        expect(errors.first[:data][:max]).to eq 4
+        expect(errors.first[:data][:got]).to eq 5
       end
     end
 
@@ -98,8 +102,9 @@ RSpec.describe Saphyr::Asserts::SizeAssert do
         expect(subject.assert_size_max(4, '12345', errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq '12345'
+        expect(errors.first[:data][:max]).to eq 4
+        expect(errors.first[:data][:got]).to eq 5
       end
     end
   end

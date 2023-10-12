@@ -7,7 +7,11 @@ module Saphyr
         unless value.size == opt_value
           errors << {
             type: err(error_code),
-            msg: "Expecting size equals to: #{opt_value}, got: #{value.size}",
+            data: {
+              _val: value,
+              len: opt_value,
+              got: value.size,
+            }
           }
           return false
         end
@@ -19,7 +23,11 @@ module Saphyr
         if value.size < opt_value
           errors << {
             type: err(error_code),
-            msg: "Expecting size >= #{opt_value}, got: #{value.size}",
+            data: {
+              _val: value,
+              min: opt_value,
+              got: value.size,
+            }
           }
           return false
         end
@@ -31,7 +39,11 @@ module Saphyr
         if value.size > opt_value
           errors << {
             type: err(error_code),
-            msg: "Expecting size <= #{opt_value}, got: #{value.size}",
+            data: {
+              _val: value,
+              max: opt_value,
+              got: value.size,
+            }
           }
           return false
         end
