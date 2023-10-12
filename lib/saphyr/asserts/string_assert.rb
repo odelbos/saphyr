@@ -7,8 +7,10 @@ module Saphyr
         unless value =~ opt_value
           errors << {
             type: err(error_code),
-            # TODO : Becarefull of the size of the value, we should limit it
-            msg: "Value failed to match regexp: #{opt_value.to_s}, got: #{value}",
+            data: {
+              _val: value,
+              regexp: opt_value,
+            }
           }
           return false
         end

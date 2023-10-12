@@ -24,8 +24,8 @@ RSpec.describe Saphyr::Asserts::StringAssert do
         expect(subject.assert_string_regexp(/^[a-z]+$/, 'RL45ef', errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'regexp'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq 'RL45ef'
+        expect(errors.first[:data][:regexp]).to eq /^[a-z]+$/
       end
     end
 
@@ -34,8 +34,8 @@ RSpec.describe Saphyr::Asserts::StringAssert do
         expect(subject.assert_string_regexp(/^[a-z]+$/, 'RL45ef', errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
-        #
-        # TODO: Test error format?
+        expect(errors.first[:data][:_val]).to eq 'RL45ef'
+        expect(errors.first[:data][:regexp]).to eq /^[a-z]+$/
       end
     end
   end
