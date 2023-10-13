@@ -4,6 +4,47 @@ require_relative "saphyr/version"
 
 # Saphyr is a libray used to validate JSON data using a schema defined with a DSL.
 #
+# == Usage example :
+#
+# Say you have a JSON literal string or already parsed 'data' like that :
+#
+#     json = '{"id": 3465, "name": "Bob"}'
+# 
+#     data = {
+#       "id" => 3465,
+#       "name" => "Bob",
+#     }
+#
+# Define a Validator with a specific schema :
+#
+#     class ItemValidator < Saphyr::Validator
+#       schema do
+#         field :id, :integer, gte: 1, lt: 32000
+#         field :name, :string, min: 2, max: 50
+#       end
+#     end
+#
+# Validate data :
+#
+#     v = ItemValidator.new
+#     if v.validate data
+#       puts "Validation : SUCCESS", "\n"
+#     else
+#       puts "Validation : FAILED", "\n"
+#       Saphyr::Helpers::Format.errors_to_text v.errors
+#     end
+#
+# Or :
+#
+#     v = ItemValidator.new
+#     if v.parse_and_validate json
+#       puts "Validation : SUCCESS", "\n"
+#       data = v.data                      # Get back the parsed json data
+#     else
+#       puts "Validation : FAILED", "\n"
+#       Saphyr::Helpers::Format.errors_to_text v.errors
+#     end
+#
 module Saphyr
   class Error < StandardError; end
 
