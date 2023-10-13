@@ -55,7 +55,6 @@ RSpec.describe Saphyr::Engine do
             engine.validate
             expect(ctx.errors.size).to be 1
             expect(ctx.errors.first[:errors].first[:type]).to eq 'strict_mode:missing_in_data'
-            expect(ctx.errors.first[:errors].first[:msg]).to eq 'Missing fields in data: name'
             expect(ctx.errors.first[:errors].first[:data][:field]).to eq 'name'
             expect(ctx.errors.first[:path]).to eq '//name'
           end
@@ -77,7 +76,6 @@ RSpec.describe Saphyr::Engine do
           engine.validate
           expect(ctx.errors.size).to be 1
           expect(ctx.errors.first[:errors].first[:type]).to eq 'strict_mode:missing_in_schema'
-          expect(ctx.errors.first[:errors].first[:msg]).to eq 'Missing fields in schema: missing'
           expect(ctx.errors.first[:errors].first[:data][:field]).to eq 'missing'
           expect(ctx.errors.first[:path]).to eq '//missing'
         end
@@ -101,7 +99,6 @@ RSpec.describe Saphyr::Engine do
           engine.validate
           expect(ctx.errors.size).to be 1
           expect(ctx.errors.first[:errors].first[:type]).to eq 'string:type'
-          expect(ctx.errors.first[:errors].first[:msg]).to eq "Expecting type 'String', got: Integer"
           expect(ctx.errors.first[:path]).to eq '//name'
         end
       end
@@ -131,7 +128,6 @@ RSpec.describe Saphyr::Engine do
           engine.validate
           expect(ctx.errors.size).to be 1
           expect(ctx.errors.first[:errors].first[:type]).to eq 'not-nullable'
-          expect(ctx.errors.first[:errors].first[:msg]).to eq 'Not nullable'
           expect(ctx.errors.first[:errors].first[:data][:field]).to eq 'name'
           expect(ctx.errors.first[:path]).to eq '//name'
         end

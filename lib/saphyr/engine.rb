@@ -95,7 +95,6 @@ module Saphyr
               errors: [
                 {
                   type: 'strict_mode:missing_in_schema',
-                  msg: "Missing fields in schema: #{name}",
                   data: {
                     field: name,
                   }
@@ -113,7 +112,6 @@ module Saphyr
                 errors: [
                   {
                     type: 'strict_mode:missing_in_data',
-                    msg: "Missing fields in data: #{name}",
                     data: {
                       field: name,
                     }
@@ -133,7 +131,6 @@ module Saphyr
                 errors: [
                   {
                     type: Saphyr::Fields::FieldBase::ERR_NOT_NULLABLE,
-                    msg: 'Not nullable',
                     data: {
                       field: name,
                     }
