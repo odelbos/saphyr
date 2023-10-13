@@ -105,6 +105,7 @@ require_relative './saphyr/fields'
 require_relative './saphyr/schema'
 require_relative './saphyr/validator'
 require_relative './saphyr/engine'
+require_relative './saphyr/helpers'
 
 
 #
