@@ -1,19 +1,5 @@
 require_relative '../lib/saphyr'
 
-def errors_to_text errors
-  errors.each do |error|
-    type = error[:type]
-    puts "path: #{error[:path]}"
-    errs = error[:errors]
-    errs.each do |err|
-      puts "  - type: #{err[:type]}"
-      puts "  - msg: #{err[:msg]}"
-    end
-    puts ""
-  end
-end
-
-
 #
 # Defining the validator
 #
@@ -57,7 +43,7 @@ if v.validate VALID_DATA
   puts "\nValidation : SUCCESS", "\n"
 else
   puts "\nValidation : FAILED", "\n"
-  errors_to_text v.errors
+  Saphyr::Helpers::Format.errors_to_text v.errors
 end
 
 
@@ -75,7 +61,8 @@ else
   puts "\nValidation : FAILED", "\n"
   # p v.errors
   # puts JSON.pretty_generate(v.errors)
-  errors_to_text v.errors
+  Saphyr::Helpers::Format.errors_to_text v.errors
+
   puts "Total: #{v.errors.size} errors."
 end
 

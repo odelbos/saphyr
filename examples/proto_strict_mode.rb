@@ -1,24 +1,11 @@
 require_relative '../lib/saphyr'
 
-def errors_to_text errors
-  errors.each do |error|
-    type = error[:type]
-    puts "path: #{error[:path]}"
-    errs = error[:errors]
-    errs.each do |err|
-      puts "  - type: #{err[:type]}"
-      puts "  - msg: #{err[:msg]}"
-    end
-    puts ""
-  end
-end
-
-
 #
 # Defining the validator
 #
 class ItemValidator < Saphyr::Validator
   field :code,  :string,  eq: 'CV23'
+  field :ref,   :string
   field :name,  :string,  min: 5, max: 15
   field :desc,  :string,  min: 5, required: false
 end
@@ -29,12 +16,14 @@ end
 # ----------------------------------------------
 VALID_DATA = {
   "code" => "CV23",
+  "ref" => "abcd",
   "name" => 'my item',
   "desc" => 'the description',
 }
 
 ERROR_DATA = {
   "code" => "CV23",
+  "ref" => nil,                        # Error: Not nullable
   "uid" => "a5b7MPTed20f",             # Error: Missing 'uid' in validator
   # "name" => 'my item',               # Error: Missing 'name' in data
   # "desc" => 'bad',                   # No error, 'desc' is not a required field
@@ -55,7 +44,7 @@ if v.validate VALID_DATA
   puts "\nValidation : SUCCESS", "\n"
 else
   puts "\nValidation : FAILED", "\n"
-  errors_to_text v.errors
+  Saphyr::Helpers::Format.errors_to_text v.errors
 end
 
 
@@ -73,7 +62,8 @@ else
   puts "\nValidation : FAILED", "\n"
   # p v.errors
   # puts JSON.pretty_generate(v.errors)
-  errors_to_text v.errors
+  Saphyr::Helpers::Format.errors_to_text v.errors
+
   puts "Total: #{v.errors.size} errors."
 end
 
