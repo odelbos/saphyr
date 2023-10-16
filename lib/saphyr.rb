@@ -156,4 +156,5 @@ Saphyr.register do
   field_type :string, Saphyr::Fields::StringField
   field_type :integer, Saphyr::Fields::IntegerField
   field_type :float, Saphyr::Fields::FloatField
+  field_type :boolean, Saphyr::Fields::BooleanField
 end
