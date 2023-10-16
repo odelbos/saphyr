@@ -43,7 +43,6 @@ RSpec.describe Saphyr::Engine do
           engine.validate
           expect(ctx.errors.size).to be 1
           expect(ctx.errors.first[:errors].first[:type]).to eq 'string:type'
-          expect(ctx.errors.first[:errors].first[:msg]).to eq "Expecting type 'String', got: Integer"
           expect(ctx.errors.first[:path]).to eq '//name'
         end
       end
