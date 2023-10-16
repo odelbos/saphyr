@@ -34,12 +34,18 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
       expect(errors).to be_empty
     end
 
+    it 'return true if value is of the specified class' do
+      expect(subject.assert_class [String, Integer], 'ok', errors).to be true
+      expect(subject.assert_class [String, Integer], 1, errors).to be true
+      expect(errors).to be_empty
+    end
+
     context 'when no error code is provided' do
       it 'returns false and adds an error if value is not of the specified class' do
         expect(subject.assert_class(String, 0, errors)).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'type'
-        expect(errors.first[:data][:type]).to eq 'String'
+        expect(errors.first[:data][:type]).to eq '[String]'
         expect(errors.first[:data][:got]).to eq 'Integer'
       end
     end
@@ -49,7 +55,7 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
         expect(subject.assert_class(String, 0, errors, 'mycode')).to be false
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq 'mycode'
-        expect(errors.first[:data][:type]).to eq 'String'
+        expect(errors.first[:data][:type]).to eq '[String]'
         expect(errors.first[:data][:got]).to eq 'Integer'
       end
     end

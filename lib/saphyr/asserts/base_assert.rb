@@ -7,18 +7,21 @@ module Saphyr
       end
 
       def assert_class klass, value, errors, error_code=Fields::FieldBase::ERR_TYPE
-        unless value.is_a? klass
+        klass = [klass] unless klass.is_a? Array
+        test = false
+        klass.each do |k|
+          if value.is_a? k; test = true; break; end
+        end
+        unless test
           errors << {
             type: err(error_code),
-            msg: "Expecting type '#{klass.to_s}', got: #{value.class.name}",
             data: {
               type: klass.to_s,
               got: value.class.name,
             }
           }
-          return false
         end
-        true
+        test
       end
 
       def assert_eq opt_value, value, errors, error_code=Fields::FieldBase::ERR_EQ
