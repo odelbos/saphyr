@@ -5,11 +5,12 @@ require_relative './common'
 # Defining validation schema
 # ----------------------------------------------
 class ItemValidator < Saphyr::Validator
-  field :id,    :integer,  gt: 0
-  field :uid,   :string,   regexp: /^[a-f0-9]+$/
-  field :code,  :string,   eq: 'CV23'
-  field :ref,   :string,   len: 4
-  field :name,  :string,   min: 5, max: 15
+  field :id,      :integer,  gt: 0
+  field :uid,     :string,   regexp: /^[a-f0-9]+$/
+  field :code,    :string,   eq: 'CV23'
+  field :ref,     :string,   len: 4
+  field :name,    :string,   min: 5, max: 15
+  field :active,  :boolean,  eq: true
 end
 
 
@@ -22,6 +23,7 @@ VALID_DATA = {
   "code" => "CV23",
   "ref" => "abcd",
   "name" => 'my item',
+  "active" => true,
 }
 
 ERROR_DATA = {
@@ -30,6 +32,7 @@ ERROR_DATA = {
   "code" => "err",                     # Error: Bot equals to 'CV23'
   "ref" => "abcdef",                   # Error: Size not equals to 4
   "name" => 'my item name too long',   # Error: Too long >= 15
+  "active" => false,                   # Error: Must be True
 }
 
 
