@@ -10,7 +10,7 @@ There are already a bunch of gem doing this job, like: `json-schema`, `json_sche
 It's a really nice crafted standard but his usage is not really intuitive.
 
 Actually the `Saphyr` gem volontary does not support the `json-schema` standard to describe
-the validation schema and focus on simlicity with an easy to use DSL.
+the validation schema and focus on simplicity with an easy to use DSL.
 
 ## Installation
 
@@ -21,6 +21,111 @@ Add it to your Gemfile:
 Install the gem:
 
     $ gem install saphyr
+
+
+## Generate documentation
+
+Generate the documentation in `./doc` folder:
+
+    $ yard
+
+Start a http server and serve the documentation:
+
+    $ yard serve
+
+# Example of Usage
+
+Some short examples to give a picture of `Saphyr`:
+
+## The most simple usage
+
+```ruby
+data = {                      # --- Rules ---
+  "id" => 236,                # Integer > 0
+  "type" => 1,                # Integer, possible values are : 1, 2 or 3
+  "price" => 32.10,           # Float > 0
+  "name" => "my item"         # String with: 5 >= size <= 15
+  "active" => true            # Boolean
+}
+
+class ItemValidator < Saphyr::Validator
+  field :id,      :integer,  gt: 0
+  field :type,    :integer,  in: [1, 2, 3]
+  field :price,   :float,    gt: 0
+  field :name,    :string,   min: 5, max: 15
+  field :active,  :boolean
+end
+```
+
+```ruby
+v = ItemValidator.new
+
+if v.validate data
+  puts "Validation : SUCCESS", "\n"
+else
+  puts "Validation : FAILED", "\n"
+  Saphyr::Helpers::Format.errors_to_text v.errors
+end
+
+# Or use: v.parse_and_validate json
+```
+
+## A more advanced usage
+
+```ruby
+data = {                               # --- Rules ---
+  "id" => 236,                           # Integer > 0
+  "name" => "my item",                   # String with: 5 >= size <= 15
+  "uploads" => [                         # This array can only have 2 or 3 elements
+    {
+      "id" => 34,                        # Interger > 0
+      "name" => "orig.gif",              # String, with: 7 <= size <= 15
+      "mime" => "image/gif",             # String, possible values: ['image/jpeg', 'image/png', 'image/gif']
+      "size" => 753745,                  # Integer > 0
+      "timestamps" => {
+        "created_at" => 1665241021,      # Integer > 0 (unix timestamp)
+        "modified_at" => 1665241021      # Integer > 0 (unix timestamp)
+      }
+    },
+    {
+      "id" => 376,
+      "name" => "medium.jpg",
+      "mime" => "image/png",
+      "size" => 8946653,
+      "timestamps" => {
+        "created_at" => 1669215446,
+        "modified_at" => 1670943462
+      }
+    }
+  ],
+  "timestamps" => {
+    "created_at" => 1669215446,
+    "modified_at" => 1670943462
+  },
+  "active" => true,
+}
+
+class ItemValidator < Saphyr::Validator
+  schema :timestamp do
+    field :created_at,   :integer,  gt: 0
+    field :modified_at,  :integer,  gt: 0
+  end
+
+  schema :upload do
+    field :id,          :integer,  gt: 0
+    field :name,        :string,   min: 7, max: 15
+    field :mime,        :string,   in: ['image/jpeg', 'image/png', 'image/gif']
+    field :size,        :integer,  gt: 0
+    field :timestamps,  :schema,   name: :timestamp
+  end
+
+  field :id,          :integer,  gt: 0
+  field :name,        :string,   min: 7, max: 15
+  field :uploads,     :array,    min: 2, max: 3, of_schema: :upload
+  field :timestamps,  :schema,   name: :timestamp
+  field :active,      :boolean,  eq: true
+end
+```
 
 # Development
 
