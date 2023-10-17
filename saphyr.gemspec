@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
     "changelog_uri"    => "https://github.com/odelbos/saphyr/CHANGELOG",
   }
 
-  spec.files = Dir['lib/**/*'] + %w(CHANGELOG LICENSE)
-  spec.extra_rdoc_files = ['CHANGELOG', 'LICENSE']
+  spec.files = Dir['lib/**/*'] + %w(rdoc/* CHANGELOG LICENSE)
+  spec.extra_rdoc_files = ['CHANGELOG', 'LICENSE'] + Dir['rdoc/*']
 
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
