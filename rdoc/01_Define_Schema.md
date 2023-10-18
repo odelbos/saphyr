@@ -93,3 +93,41 @@ class PostValidator < Saphyr::Validator
   field :timestamps,  :schema,  name: :timestamp
 end
 ```
+
+## When root is an array
+
+By default validator root are set to `:object`, but this can be customized.
+
+In this case, only one virtual field must be defined : `:_root_` and it must be of type `:array`
+
+Example with `:of_type` :
+
+```ruby
+data = ['fr', 'en', 'es']
+
+class ItemValidator < Saphyr::Validator
+  root :array
+
+  field :_root_,  :array,  min: 2,  max: 5,  of_type: :string,  opts: {len: 2}
+end
+```
+
+Example with `:of_schema` :
+
+```ruby
+data = [
+  { "id" => 12, "label" => "tag1" },
+  { "id" => 15, "label" => "tag2" },
+]
+
+class ItemValidator < Saphyr::Validator
+  root :array
+
+  schema :tag do
+    field :id,     :integer,  gt: 0
+    field :label,  :string,   min: 2,  max: 30
+  end
+
+  field :_root_,  :array,  min: 2,  max: 4,  of_schema: :tag
+end
+```
