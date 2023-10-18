@@ -72,8 +72,23 @@ module Saphyr
       end
 
       def array_validation()
-        # TODO: Implement business logic when root is an array.
-        raise Saphyr::Error.new 'Not yet implemented!'
+        fields = @ctx.schema.fields
+        unless fields.size == 1
+          raise Saphyr::Error.new 'When root is :array, only :_root_ field must exists'
+        end
+
+        field = fields['_root_']
+        if field.nil?
+          raise Saphyr::Error.new 'When root is :array, must define :_root_ field'
+        end
+
+        errors = field.validate @ctx, '', data_to_validate
+        unless errors.size == 0
+          @ctx.errors << {
+            path: '//',
+            errors: errors,
+          }
+        end
       end
 
       def object_validation()
