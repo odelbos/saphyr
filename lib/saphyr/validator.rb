@@ -25,6 +25,9 @@ module Saphyr
         if config.root_array? and name != :_root_
           raise Saphyr::Error.new "Can only define ':_root_' field when root is ':array'"
         end
+        if name == :_root_ and type != :array
+          raise Saphyr::Error.new "Field ':_root_' must be of type ':array'"
+        end
         config.field name, type, **opts
       end
 

@@ -42,7 +42,6 @@ RSpec.describe Saphyr::Validator do
     #
     describe '.field' do
       context 'when root is :object' do
-        Saphyr::Validator.root :object
         it 'adds a field to the configuration' do
           object_validator.class.field :name, :string
           expect(object_validator.get_config.fields['name']).to be_an_instance_of Saphyr::Fields::StringField
@@ -51,7 +50,11 @@ RSpec.describe Saphyr::Validator do
 
       context 'when root is :array' do
         it 'raise an exception if field name is not :_root_' do
-          expect { array_validator.class.field(:name, :string) }.to raise_error Saphyr::Error
+          expect { array_validator.class.field(:name, :array, of_type: :string) }.to raise_error Saphyr::Error
+        end
+
+        it "raise an exception if ':_root_' is not of ':array' type" do
+          expect { array_validator.class.field(:_root_, :strung) }.to raise_error Saphyr::Error
         end
       end
     end
