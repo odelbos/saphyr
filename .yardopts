@@ -6,3 +6,4 @@ CHANGELOG
 LICENSE
 rdoc/01_Define_Schema.md
 rdoc/02_Field_Types.md
+rdoc/03_Strict_Mode.md

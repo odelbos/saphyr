@@ -131,6 +131,7 @@ end
 
 - [How to define a schema](rdoc/01_Define_Schema.md)
 - [An overview of the library field types](rdoc/02_Field_Types.md)
+- [How to use strict mode](rdoc/03_Strict_Mode.md)
 
 # Development
 
