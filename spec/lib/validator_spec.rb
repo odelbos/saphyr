@@ -2,6 +2,18 @@
 
 RSpec.describe Saphyr::Validator do
 
+  let(:test_class) { Class.new(Saphyr::Validator) }
+
+  let(:object_validator) {
+    test_class.new
+  }
+
+  let(:array_validator) {
+    v = test_class.new
+    v.class.root :array
+    v
+  }
+
   describe '.config' do
     it 'returns a Saphyr::Schema object' do
       expect(Saphyr::Validator.config).to be_an_instance_of Saphyr::Schema
@@ -11,20 +23,17 @@ RSpec.describe Saphyr::Validator do
   context 'Part of DSL' do
     describe '.strict' do
       it 'sets strict mode in the configuration' do
-        Saphyr::Validator.strict true
-        expect(Saphyr::Validator.config.instance_variable_get :@strict).to eq true
-        # expect(Saphyr::Validator.config.strict?).to eq true
+        expect(object_validator.get_config.instance_variable_get :@strict).to eq true
       end
     end
 
     describe '.root' do
       it 'sets default root to: :object' do
-        expect(Saphyr::Validator.config.instance_variable_get :@root).to eq :object
+        expect(object_validator.get_config.instance_variable_get :@root).to eq :object
       end
 
       it 'sets provided root' do
-        Saphyr::Validator.root :array
-        expect(Saphyr::Validator.config.instance_variable_get :@root).to eq :array
+        expect(array_validator.get_config.instance_variable_get :@root).to eq :array
       end
     end
 
@@ -32,12 +41,20 @@ RSpec.describe Saphyr::Validator do
     # TODO: Test with and withtout options
     #
     describe '.field' do
-      it 'adds a field to the configuration' do
-        Saphyr::Validator.field :name, :string
-        expect(Saphyr::Validator.config.fields['name']).to be_an_instance_of Saphyr::Fields::StringField
+      context 'when root is :object' do
+        Saphyr::Validator.root :object
+        it 'adds a field to the configuration' do
+          object_validator.class.field :name, :string
+          expect(object_validator.get_config.fields['name']).to be_an_instance_of Saphyr::Fields::StringField
+        end
+      end
+
+      context 'when root is :array' do
+        it 'raise an exception if field name is not :_root_' do
+          expect { array_validator.class.field(:name, :string) }.to raise_error Saphyr::Error
+        end
       end
     end
-    #
 
     describe '.schema' do
       it 'adds a schema to the configuration' do
@@ -79,24 +96,11 @@ RSpec.describe Saphyr::Validator do
   #
 
   describe '#validate' do
-
-    # TODO:Try to dynamically construct a Validator
-    # let(:validator) do
-    #   c = described_class.new
-    #   c.class.class_eval do
-    #     field :name, :string
-    #   end
-    #   # c.instance_eval <<-METHOD
-    #   described_class.class_eval <<-METHOD
-    #       def do_validate(ctx, name, value, errors)
-    #         return unless assert_class String, value, errors
-    #       end
-    #   METHOD
-    #   described_class.send :private, :do_validate
-    #   c
-    # end
-
-    let(:validator) { SaphyrTest::OneFieldNoOptValidator.new }
+    let(:validator) {
+      v = test_class.new
+      v.class.field :name, :string
+      v
+    }
     let(:valid_data) { { "name" => 'my item', } }
     let(:invalid_data) { { "name" => 3, } }
 
@@ -120,6 +124,6 @@ RSpec.describe Saphyr::Validator do
   #
 
   #
-  # TODO: #erros don't need to be tested ? (too easay methods)
+  # TODO: #errors don't need to be tested ? (too easay methods)
   #
 end
