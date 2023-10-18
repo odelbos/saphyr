@@ -130,6 +130,7 @@ end
 # Documentation and HowTo
 
 - [How to define a schema](rdoc/01_Define_Schema.md)
+- [An overview of the library field types](rdoc/02_Field_Types.md)
 
 # Development
 
