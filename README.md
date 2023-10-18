@@ -129,11 +129,11 @@ end
 
 ## When root is an array
 
-By default validator root are set to +:object+, but this can be customized.
+By default validator root are set to `:object`, but this can be customized.
 
 In this case, only one virtual field must be defined : `:_root_` and it must be of type `:array`
 
-Example with +:of_type+ :
+Example with `:of_type` :
 
 ```ruby
 data = ['fr', 'en', 'es']
@@ -145,7 +145,7 @@ class ItemValidator < Saphyr::Validator
 end
 ```
 
-Example with +:of_schema+ :
+Example with `:of_schema` :
 
 ```ruby
 data = [
