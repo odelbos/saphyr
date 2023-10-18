@@ -72,6 +72,7 @@ module Saphyr
         end
 
         def make_path(ctx, name, index)
+          return ctx.get_path "[#{index}]" if name == ''
           ctx.get_path "#{name}.[#{index}]"
         end
     end
