@@ -1,6 +1,9 @@
 module Saphyr
   module Fields
 
+    # The +boolean+ field type
+    #
+    # Allowed options are: +:eq+.
     class BooleanField < FieldBase
       PREFIX = 'boolean'
 
