@@ -10,13 +10,13 @@ class ItemValidator < Saphyr::Validator
   field :code,  :string
 
   conditional :is_file? do
-    field :content,   :string
-    field :author,    :string
+    field :name,  :string,  min: 2
+    field :mime,  :string,  in: ['image/png', 'image/jpg']
   end
 
   conditional :is_post? do
-    field :name,  :string,  min: 2
-    field :mime,  :string,  in: ['image/png', 'image/jpg']
+    field :content,   :string
+    field :author,    :string
   end
 
   conditional :code_r3? do
@@ -48,8 +48,8 @@ VALID_DATA_1 = {
   "code" => "R3",
 
   # Condtionals fields: if type == file
-  "content" => "Lipsum ...",
-  "author" => "Lipsum ...",
+  "name" => "Lipsum ...",
+  "mime" => "image/png",
 
   # Condtionals fields: if code == R3
   "ref" => "Lipsum ...",
@@ -61,9 +61,9 @@ VALID_DATA_2 = {
   "type" => "post",
   "code" => "OP",
 
-  # Condtionals fields: if type == psot
-  "name" => "Lipsum ...",
-  "mime" => "image/png",
+  # Condtionals fields: if type == post
+  "content" => "Lipsum ...",
+  "author" => "Lipsum ...",
 }
 
 
@@ -72,9 +72,9 @@ VALID_DATA_3 = {
   "type" => "post",
   "code" => "R3",
 
-  # Condtionals fields: if type == psot
-  "name" => "Lipsum ...",
-  "mime" => "image/png",
+  # Condtionals fields: if type == post
+  "content" => "Lipsum ...",
+  "author" => "Lipsum ...",
 
   # Condtionals fields: if code == R3
   "ref" => "Lipsum ...",
@@ -87,8 +87,8 @@ ERROR_DATA = {
   "code" => "R3",
 
   # Condtionals fields: if type == file
-  "content" => "Lipsum ...",
-  "author" => "Lipsum ...",
+  "name" => "Lipsum ...",
+  "mime" => "image/png",
 
   # Condtionals fields: if code == R3
   "ref" => "Lipsum ...",
