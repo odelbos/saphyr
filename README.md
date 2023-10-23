@@ -73,7 +73,7 @@ end
 ## A more advanced usage
 
 ```ruby
-data = {                               # --- Rules ---
+data = {                                 # --- Rules ---
   "id" => 236,                           # Integer > 0
   "name" => "my item",                   # String with: 5 >= size <= 15
   "uploads" => [                         # This array can only have 2 or 3 elements
@@ -165,6 +165,81 @@ class ItemValidator < Saphyr::Validator
 end
 ```
 
+## Conditional fields
+
+Sometime, we can have different fields depending on a specitic field value.
+
+```ruby
+data_1 = {
+  "id" => 145,
+  "type" => "file",
+
+  "name" => "Lipsum ...",    # Condtionals fields:
+  "mime" => "image/png",     #   must be defined only if type == 'file'
+}
+
+data_2 = {
+  "id" => 145,
+  "type" => "post",
+
+  "content" => "Lipsum ...",  # Condtionals fields:
+  "author" => "Lipsum ...",   #   must be defined only if type == 'post'
+}
+```
+
+Example of `Validator`, using methods:
+
+```ruby
+class ItemValidator < Saphyr::Validator
+  field :id,    :integer,  gt: 0
+  field :type,  :string,   in: ['post', 'file']
+
+  conditional :is_file? do           # Call 'is_file?' method to check the conddtion
+    field :name,  :string,  min: 2
+    field :mime,  :string,  in: ['image/png', 'image/jpg']
+  end
+
+  conditional :is_post? do           # Call 'is_post?' method to check the conddtion
+    field :content,  :string
+    field :author,   :string
+  end
+
+  private
+
+    def is_file?                     # Must return: true | false
+      get(:type) == 'file'
+    end
+
+    def is_post?                     # Must return: true | false
+      get(:type) == 'post'
+    end
+end
+```
+
+Example of `Validator`, using lambda:
+
+```ruby
+class ItemValidator < Saphyr::Validator
+  field :id,    :integer,  gt: 0
+  field :type,  :string,   in: ['post', 'file']
+  field :code,  :string
+
+  conditional -> { get(:type) == 'file' } do
+    field :name,  :string,  min: 2
+    field :mime,  :string,  in: ['image/png', 'image/jpg']
+  end
+
+  conditional -> { get(:type) == 'post' } do
+    field :content,  :string
+    field :author,   :string
+  end
+
+  conditional -> { get(:code) == 'R3' } do
+    field :ref,  :string,  min: 2
+  end
+end
+```
+
 # Documentation and HowTo
 
 - [How to define a schema](rdoc/01_Define_Schema.md)
@@ -184,3 +259,19 @@ Bug reports and pull requests are welcome on GitHub at [https://github.com/odelb
 # License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+# Roadmap
+
+- [X] Add field class
+- [X] Add internal basic fields (integer, float, string, boolean, array)
+- [X] Add validator class
+- [X] Add local and global schema
+- [X] Add validation engine
+- [X] Add conditional field
+- [ ] Add field casting
+- [ ] Add default value to field
+- [ ] Add more internal fields (b64, b62, uuid, ipv4, ipv4, ...)
+
+# Author
+
+@odelbos
