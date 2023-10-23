@@ -4,7 +4,7 @@ By default the `Saphyr` library is including many field types.
 
 ## Common options
 
-All field type have the common `:required`, `:nullable` and `:default`.
+All field type have the common `:required`, `:nullable`.
 
 ## String
 
