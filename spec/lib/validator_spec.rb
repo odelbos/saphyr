@@ -67,6 +67,28 @@ RSpec.describe Saphyr::Validator do
         expect(Saphyr::Validator.config.schemas[:user]).to be_an_instance_of Saphyr::Schema
       end
     end
+
+    describe '.contionial' do
+      it 'add a conditional schema to the configuration' do
+        object_validator.class.config.conditional(:cond_method) do
+          field :name, :string
+        end
+        expect(object_validator.class.config.conditionals.size).to eq 1
+        cond, schema = object_validator.class.config.conditionals[0]
+        expect(cond).to eq :cond_method
+        expect(schema).to be_an_instance_of Saphyr::Schema
+      end
+
+      context "when 'cond' argument is invalid" do
+        it 'raise an exception' do
+          expect {
+            object_validator.class.config.conditional(4) do
+              field :name, :string
+            end
+          }.to raise_error Saphyr::Error
+        end
+      end
+    end
   end
 
   describe '#get_config' do

@@ -3,11 +3,11 @@ module Saphyr
   # This class is used to encapsulate schema definition.
   #
   class Schema
-    attr_reader :strict, :root, :fields, :schemas
+    attr_reader :strict, :root, :fields, :schemas, :conditionals
 
     def initialize()
       @strict, @root = true, :object        # Default values
-      @fields, @schemas = {}, {}
+      @fields, @schemas, @conditionals = {}, {}, []
     end
 
     # ---------------------------------------------------- DSL
@@ -31,6 +31,17 @@ module Saphyr
       schema.instance_eval &block
       # TODO : What if schema 'name' already exists?
       @schemas[name] = schema
+    end
+
+    def conditional(cond, &block)
+      cond = cond.to_sym if cond.is_a? String
+      if not cond.is_a?(Proc) and not cond.is_a?(Symbol)
+        raise Saphyr::Error.new "Bad condition, must a Proc or Symbol"
+      end
+
+      schema = Saphyr::Schema.new
+      schema.instance_eval &block
+      @conditionals << [cond, schema]
     end
     # -------------------------------------------------- / DSL
 

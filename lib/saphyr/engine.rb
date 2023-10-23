@@ -41,7 +41,7 @@ module Saphyr
       # lookup into the global schemas.
       # @param name [Symbol] The name of the schema.
       # @return [Saphyr::Schema]
-      # @raise [Saphyr::Error] if no schema was found.
+      # @rmaise [Saphyr::Error] if no schema was found.
       def find_schema(name)
         @validators.each do |validator|
           schema = validator.find_schema name
@@ -50,6 +50,13 @@ module Saphyr
         schema = Saphyr.global_schema name
         raise Saphyr::Error.new "Cannot find schema name: #{name}" if schema.nil?
         schema
+      end
+
+      # Get data needed for validation
+      # @return The full data or a fragment of data is it exists.
+      def data_to_validate()
+        return @data if @fragment.nil?
+        @fragment
       end
     end
 
@@ -66,11 +73,6 @@ module Saphyr
 
     private
 
-      def data_to_validate()
-        return @ctx.data if @ctx.fragment.nil?
-        @ctx.fragment
-      end
-
       def array_validation()
         fields = @ctx.schema.fields
         unless fields.size == 1
@@ -82,7 +84,7 @@ module Saphyr
           raise Saphyr::Error.new 'When root is :array, must define :_root_ field'
         end
 
-        errors = field.validate @ctx, '', data_to_validate
+        errors = field.validate @ctx, '', @ctx.data_to_validate
         unless errors.size == 0
           @ctx.errors << {
             path: '//',
@@ -92,8 +94,35 @@ module Saphyr
       end
 
       def object_validation()
-        fields = @ctx.schema.fields
-        data = data_to_validate
+        # Computte all conditional fields
+        allowed_cond_fields = []
+        forbidden_cond_fields = []
+        @ctx.schema.conditionals.each do |data|
+          condition, schema = data
+          if condition.is_a? Symbol
+            if @ctx.validators.last.send condition
+              allowed_cond_fields += schema.fields.keys
+            else
+              forbidden_cond_fields += schema.fields.keys
+            end
+          end
+        end
+
+        do_validation @ctx.schema, allowed_cond_fields, forbidden_cond_fields, []
+
+        fields = @ctx.schema.fields.keys
+        @ctx.schema.conditionals.each do |data|
+          condition, schema = data
+
+          if @ctx.validators.last.send condition
+            do_validation schema, allowed_cond_fields, forbidden_cond_fields, fields
+          end
+        end
+      end
+
+      def do_validation(schema, allowed_cond_fields, forbidden_cond_fields, exclude_fields)
+        fields = schema.fields
+        data = @ctx.data_to_validate
 
         field_keys = fields.keys
         data_keys = data.keys
@@ -105,17 +134,36 @@ module Saphyr
 
           if field.nil?
             next unless @ctx.schema.strict?
-            @ctx.errors << {
-              path: field_path,
-              errors: [
-                {
-                  type: 'strict_mode:missing_in_schema',
-                  data: {
-                    field: name,
-                  }
-                }
-              ],
-            }
+            next if allowed_cond_fields.include? name
+            next if exclude_fields.include? name
+
+            # If there is already an error for this field we skip adding a new one
+            # Bacause if there are many conditional schema, each one will add
+            # the field errors.
+            k = @ctx.errors.select { |err| err[:path] == field_path }
+            next if k.size != 0
+
+            if forbidden_cond_fields.include? name
+              @ctx.errors << {
+                path: field_path,
+                errors: [
+                  {
+                    type: 'conditional:not-allowed',
+                    data: { field: name }
+                  },
+                ],
+              }
+            else
+              @ctx.errors << {
+                path: field_path,
+                errors: [
+                  {
+                    type: 'strict_mode:missing_in_schema',
+                    data: { field: name }
+                  },
+                ],
+              }
+            end
             next
           end
 

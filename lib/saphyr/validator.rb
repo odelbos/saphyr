@@ -6,7 +6,7 @@ module Saphyr
   class Validator
 
     class << self
-      attr_accessor :cache_config
+      attr_accessor :cache_config, :proc_idx
 
       def config()
         self.cache_config ||= Saphyr::Schema.new
@@ -34,10 +34,31 @@ module Saphyr
       def schema(name, &block)
         config.schema name, &block
       end
+
+      def conditional(cond, &block)
+        #
+        # TODO: 'cond' must be a method Symbol or a proc / lambda
+        #
+        method = cond
+        if cond.is_a? Proc
+          m = "_proc_cond_#{self.internal_proc_index}".to_sym
+          self.send :define_method, m, cond
+          method = m
+          self.proc_idx += 1
+        end
+        config.conditional method, &block
+      end
       # ----- / Proxy
+
+      private 
+
+        def internal_proc_index()
+          self.proc_idx ||= 0
+        end
     end
 
     def initialize()
+      @proc_idx = 0
       @ctx = nil
     end
 
@@ -85,6 +106,14 @@ module Saphyr
     def errors()
       return [] if @ctx.nil?
       @ctx.errors
+    end
+
+    # Get a field from the data to validate.
+    # @param [String | Symbol] The field name
+    # @return The field value
+    def get(field)
+      data = @ctx.data_to_validate
+      data[field.to_s]
     end
   end
 end
