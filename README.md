@@ -12,17 +12,6 @@ It's a really nice crafted standard but his usage is not really intuitive.
 Actually the `Saphyr` gem volontary does not support the `json-schema` standard to describe
 the validation schema and focus on simplicity with an easy to use DSL.
 
-## Installation
-
-Add it to your Gemfile:
-
-    $ bundle add saphyr
-
-Install the gem:
-
-    $ gem install saphyr
-
-
 ## Generate documentation
 
 Generate the documentation in `./doc` folder:
