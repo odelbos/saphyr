@@ -99,12 +99,10 @@ module Saphyr
         forbidden_cond_fields = []
         @ctx.schema.conditionals.each do |data|
           condition, schema = data
-          if condition.is_a? Symbol
-            if @ctx.validators.last.send condition
-              allowed_cond_fields += schema.fields.keys
-            else
-              forbidden_cond_fields += schema.fields.keys
-            end
+          if @ctx.validators.last.send condition
+            allowed_cond_fields += schema.fields.keys
+          else
+            forbidden_cond_fields += schema.fields.keys
           end
         end
 
