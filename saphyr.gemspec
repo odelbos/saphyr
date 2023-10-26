@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "homepage_uri"     => spec.homepage,
     "source_code_uri"  => "https://github.com/odelbos/saphyr",
-    "changelog_uri"    => "https://github.com/odelbos/saphyr/CHANGELOG",
+    "changelog_uri"    => "https://github.com/odelbos/saphyr/blob/main/CHANGELOG",
   }
 
   spec.files = Dir['lib/**/*', 'rdoc/*'] + %w(CHANGELOG LICENSE)
