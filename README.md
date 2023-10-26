@@ -229,6 +229,53 @@ class ItemValidator < Saphyr::Validator
 end
 ```
 
+
+## Field casting
+
+```ruby
+data = {
+  "id"          => 1,
+  "name"        => "Lipsum ...",
+  "created_at"  => "2023-10-26 10:57:05.29685 +0200",   # Cast to unix timestamp
+  "active"      => "Yes",                               # Cast to Boolean
+}
+```
+
+Casting is applied before validation.
+
+```ruby
+class ItemValidator < Saphyr::Validator
+
+  # Using a method call
+  cast :created_at, :created_at_cast
+
+  # Using a lambda
+  cast :active, -> (value) {
+      return true if ['yes', 'y'].include? value.downcase
+      false
+  }
+
+  # -----
+
+  field :id,          :integer,  gt: 0
+  field :name,        :string,   min: 5
+  field :created_at,  :integer,  gt: 0
+  field :active,      :boolean
+
+  private
+
+    def created_at_cast(value)
+      begin
+        return DateTime.parse(value).to_time.to_i
+      end
+      value
+    end
+end
+```
+
+
+
+
 # Documentation and HowTo
 
 - [How to define a schema](rdoc/01_Define_Schema.md)
