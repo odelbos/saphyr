@@ -1,3 +1,5 @@
+__Still in prototype state : v0.4.0.beta__
+
 # Saphyr
 
 The purpose of `Saphyr` gem is to provide a simple DSL to easily and quickly
@@ -273,9 +275,6 @@ class ItemValidator < Saphyr::Validator
 end
 ```
 
-
-
-
 # Documentation and HowTo
 
 - [How to define a schema](rdoc/01_Define_Schema.md)
@@ -304,7 +303,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 - [X] Add local and global schema
 - [X] Add validation engine
 - [X] Add conditional field
-- [ ] Add field casting
+- [X] Add field casting
 - [ ] Add default value to field
 - [ ] Add more internal fields (b64, b62, uuid, ipv4, ipv4, ...)
 
