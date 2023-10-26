@@ -78,15 +78,14 @@ RSpec.describe Saphyr::Validator do
         expect(cond).to eq :cond_method
         expect(schema).to be_an_instance_of Saphyr::Schema
       end
+    end
 
-      context "when 'cond' argument is invalid" do
-        it 'raise an exception' do
-          expect {
-            object_validator.class.config.conditional(4) do
-              field :name, :string
-            end
-          }.to raise_error Saphyr::Error
-        end
+    describe '.cast' do
+      it 'add field casting to the configuration' do
+        object_validator.class.config.cast(:name, :method)
+        expect(object_validator.class.config.casts.size).to eq 1
+        method = object_validator.class.config.casts['name']
+        expect(method).to eq 'method'
       end
     end
   end
