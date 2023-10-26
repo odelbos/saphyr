@@ -24,6 +24,31 @@ Start a http server and serve the documentation:
 
     $ yard serve
 
+## Run tests
+
+```
+rspec
+```
+
+```
+rake
+```
+
+```
+rake spec
+```
+
+## Installation
+
+Add it to your Gemfile:
+
+    $ bundle add saphyr
+    $ bundle install
+
+Install the gem:
+
+    $ gem install saphyr
+
 # Example of Usage
 
 Some short examples to give a picture of `Saphyr`:
