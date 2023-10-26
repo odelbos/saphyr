@@ -1,4 +1,4 @@
-__Still in prototype state : v0.4.0.beta__
+[![Gem Version](https://badge.fury.io/rb/saphyr.svg)](https://badge.fury.io/rb/saphyr)
 
 # Saphyr
 
