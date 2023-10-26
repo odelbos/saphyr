@@ -41,12 +41,22 @@ module Saphyr
         #
         method = cond
         if cond.is_a? Proc
-          m = "_proc_cond_#{self.internal_proc_index}".to_sym
+          m = "_proc_#{self.internal_proc_index}".to_sym
           self.send :define_method, m, cond
           method = m
           self.proc_idx += 1
         end
         config.conditional method, &block
+      end
+
+      def cast(field, method)
+        if method.is_a? Proc
+          m = "_proc_#{self.internal_proc_index}".to_sym
+          self.send :define_method, m, method
+          method = m
+          self.proc_idx += 1
+        end
+        config.cast field, method
       end
       # ----- / Proxy
 

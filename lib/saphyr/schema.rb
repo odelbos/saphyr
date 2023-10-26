@@ -3,11 +3,11 @@ module Saphyr
   # This class is used to encapsulate schema definition.
   #
   class Schema
-    attr_reader :strict, :root, :fields, :schemas, :conditionals
+    attr_reader :strict, :root, :fields, :schemas, :conditionals, :casts
 
     def initialize()
       @strict, @root = true, :object        # Default values
-      @fields, @schemas, @conditionals = {}, {}, []
+      @fields, @schemas, @conditionals, @casts = {}, {}, [], {}
     end
 
     # ---------------------------------------------------- DSL
@@ -42,6 +42,14 @@ module Saphyr
       schema = Saphyr::Schema.new
       schema.instance_eval &block
       @conditionals << [cond, schema]
+    end
+
+    def cast(field, method)
+      method = method.to_s if method.is_a? Symbol
+      if not method.is_a?(Proc) and not method.is_a?(String)
+        raise Saphyr::Error.new "Bad method, must a Proc or Symbol | String"
+      end
+      @casts.store field.to_s, method
     end
     # -------------------------------------------------- / DSL
 

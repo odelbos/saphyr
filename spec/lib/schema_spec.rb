@@ -31,18 +31,57 @@ RSpec.describe Saphyr::Schema do
     end
 
     describe '#field' do
-      it 'adds a field to the fields to schema' do
+      it 'add a field to the fields to schema' do
         subject.field :name, :string
         expect(subject.fields).to include('name' => an_instance_of(Saphyr::Fields::StringField))
       end
     end
 
     describe '#schema' do
-      it 'adds a loval schema to theschema' do
+      it 'add a local schema to schema' do
         subject.schema(:user) do
           # ... schema configuration
         end
         expect(subject.instance_variable_get :@schemas).to include(user:  an_instance_of(Saphyr::Schema))
+      end
+    end
+
+    describe '#contionial' do
+      it 'add a conditional schema to schema' do
+        subject.conditional(:cond_method) do
+          field :name, :string
+        end
+        expect(subject.conditionals.size).to eq 1
+        cond, schema = subject.conditionals[0]
+        expect(cond).to eq :cond_method
+        expect(schema).to be_an_instance_of Saphyr::Schema
+      end
+
+      context "when 'cond' argument is invalid" do
+        it 'raise an exception' do
+          expect {
+            subject.conditional(4) do
+              field :name, :string
+            end
+          }.to raise_error Saphyr::Error
+        end
+      end
+    end
+
+    describe '#cast' do
+      it 'add field casting to schema' do
+        subject.cast(:name, :method)
+        expect(subject.casts.size).to eq 1
+        method = subject.casts['name']
+        expect(method).to eq 'method'
+      end
+
+      context "when 'method' argument is invalid" do
+        it 'raise an exception' do
+          expect {
+            subject.cast(:name, 5)
+          }.to raise_error Saphyr::Error
+        end
       end
     end
   end
