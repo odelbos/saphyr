@@ -119,9 +119,14 @@ module Saphyr
       end
 
       def do_validation(schema, allowed_cond_fields, forbidden_cond_fields, exclude_fields)
-        fields = schema.fields
         data = @ctx.data_to_validate
 
+        # Apply casting
+        schema.casts.each_pair do |field, method|
+          data[field] = @ctx.validators.last.send method, data[field]
+        end
+
+        fields = schema.fields
         field_keys = fields.keys
         data_keys = data.keys
 
