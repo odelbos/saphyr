@@ -1,3 +1,4 @@
+[![Testing](https://github.com/odelbos/saphyr/actions/workflows/test.yml/badge.svg)](https://github.com/odelbos/saphyr/actions/workflows/test.yml)
 [![Gem Version](https://badge.fury.io/rb/saphyr.svg)](https://badge.fury.io/rb/saphyr)
 
 # Saphyr
