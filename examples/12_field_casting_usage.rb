@@ -13,7 +13,8 @@ class ItemValidator < Saphyr::Validator
   # Using a lambda
   cast :active, -> (value) {
       return true if ['yes', 'y'].include? value.downcase
-      false
+      return false if ['no', 'n'].include? value.downcase
+      value      # Unknown value, returning it back
   }
 
   # -----
