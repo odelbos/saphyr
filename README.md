@@ -204,19 +204,21 @@ data_2 = {
 }
 ```
 
-Example of `Validator`, using methods:
+Example of `Validator` with conditional fields:
 
 ```ruby
 class ItemValidator < Saphyr::Validator
   field :id,    :integer,  gt: 0
   field :type,  :string,   in: ['post', 'file']
 
-  conditional :is_file? do           # Call 'is_file?' method to check the conddtion
+  # Using a method call
+  conditional :is_file? do           # Will call 'is_file?' method to check the conddtion
     field :name,  :string,  min: 2
     field :mime,  :string,  in: ['image/png', 'image/jpg']
   end
 
-  conditional :is_post? do           # Call 'is_post?' method to check the conddtion
+  # Using a lambda
+  conditional -> { get(:type) == 'post' } do
     field :content,  :string
     field :author,   :string
   end
@@ -226,37 +228,8 @@ class ItemValidator < Saphyr::Validator
     def is_file?                     # Must return: true | false
       get(:type) == 'file'
     end
-
-    def is_post?                     # Must return: true | false
-      get(:type) == 'post'
-    end
 end
 ```
-
-Example of `Validator`, using lambda:
-
-```ruby
-class ItemValidator < Saphyr::Validator
-  field :id,    :integer,  gt: 0
-  field :type,  :string,   in: ['post', 'file']
-  field :code,  :string
-
-  conditional -> { get(:type) == 'file' } do
-    field :name,  :string,  min: 2
-    field :mime,  :string,  in: ['image/png', 'image/jpg']
-  end
-
-  conditional -> { get(:type) == 'post' } do
-    field :content,  :string
-    field :author,   :string
-  end
-
-  conditional -> { get(:code) == 'R3' } do
-    field :ref,  :string,  min: 2
-  end
-end
-```
-
 
 ## Field casting
 
@@ -280,7 +253,8 @@ class ItemValidator < Saphyr::Validator
   # Using a lambda
   cast :active, -> (value) {
       return true if ['yes', 'y'].include? value.downcase
-      false
+      return false if ['no', 'n'].include? value.downcase
+      value      # Unknown value, returning it back
   }
 
   # -----
