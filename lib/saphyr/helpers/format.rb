@@ -92,6 +92,13 @@ module Saphyr
           end
 
           # ------------------------------------
+          # Conditional fields
+          # ------------------------------------
+          if type.end_with? 'conditional:not-allowed'
+            return 'Conditional field not allowed'
+          end
+
+          # ------------------------------------
           # Not Nullable
           # ------------------------------------
           if type == 'not-nullable'
