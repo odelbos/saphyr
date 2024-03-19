@@ -8,7 +8,7 @@ gemspec
 # DOC
 # --------------------------------
 group :doc do
-  gem 'yard', '~> 0.9.34'
+  gem 'yard', '~> 0.9.36'
   # Webrick is used by Yard in server mode (ex: yard server --reload).
   gem 'webrick'
 end
