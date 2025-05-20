@@ -74,11 +74,11 @@ module Saphyr
             raise Saphyr::Error.new "Option ':nullable' must be a Boolean"
           end
         end
-
-        #
-        # TODO: If the :default option is defined, we to check if the type
-        # if compatible with field
-        #
+        if opts.key? :default
+          unless assert_class self.class::EXPECTED_TYPES, opts[:default], []
+            raise Saphyr::Error.new "Option ':default' bad type. Expecting: '#{self.class::EXPECTED_TYPES.to_s}', got: '#{opts[:default].class.name}'"
+          end
+        end
 
         unless authorized_options.size == 0
           opts.keys.each do |opt|
