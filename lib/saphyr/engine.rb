@@ -171,20 +171,25 @@ module Saphyr
           end
 
           unless data.key? name
-            next unless @ctx.schema.strict?
-            if field.required?
-              @ctx.errors << {
-                path: field_path,
-                errors: [
-                  {
-                    type: 'strict_mode:missing_in_data',
-                    data: {
-                      field: name,
+            if field.default?
+              data[name] = field.opts[:default]
+            else
+              next unless @ctx.schema.strict?
+              if field.required?
+                @ctx.errors << {
+                  path: field_path,
+                  errors: [
+                    {
+                      type: 'strict_mode:missing_in_data',
+                      data: {
+                        field: name,
+                      }
                     }
-                  }
-                ],
-              }
+                  ],
+                }
+              end
             end
+
             next
           end
 

@@ -3,9 +3,8 @@ module Saphyr
 
     class SchemaField < FieldBase
       PREFIX = 'schema'
-
+      EXPECTED_TYPES = Hash
       AUTHORIZED_OPTIONS = [:name]
-
       REQUIRED_OPTIONS = [:name]
 
       private

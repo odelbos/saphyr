@@ -17,12 +17,17 @@ module Saphyr
 
       # Every field type has the +:required+ and +:nullable+ options.
       # @api private
-      DEFAULT_OPT_VALUES = {required: true, nullable: false}.freeze
+      DEFAULT_OPT_VALUES = {required: true, nullable: false, default: :_none_}.freeze
       # @api private
       DEFAULT_OPTS = DEFAULT_OPT_VALUES.keys.freeze
 
       # NOTE: 
       # Override following constants to manage options
+
+      # List of expected classes for the field. It can be an array of class names, or
+      # a single class name. EX: [TrueClass, FalseClass] or Integer.
+      # @note Overriding this class constant is mandatory.
+      EXPECTED_TYPES = nil
 
       # List of authorized options.
       # @note Override this class constant if you want to use this feature.
@@ -55,8 +60,10 @@ module Saphyr
       # @note Override this class constant if you want to use this feature.
       NOT_SUP_OR_EQUALS_OPTIONS = []
 
-
       def initialize(opts={})
+        if self.class::EXPECTED_TYPES.nil?
+          raise Saphyr::Error.new "The 'EXPECTED_TYPES' constant must be defined"
+        end
         if opts.key? :required
           unless assert_boolean opts[:required]
             raise Saphyr::Error.new "Option ':required' must be a Boolean"
@@ -68,9 +75,14 @@ module Saphyr
           end
         end
 
+        #
+        # TODO: If the :default option is defined, we to check if the type
+        # if compatible with field
+        #
+
         unless authorized_options.size == 0
           opts.keys.each do |opt|
-            next if  opt == :required or opt == :nullable
+            next if opt == :required or opt == :nullable or opt == :default
             unless authorized_options.include? opt
               raise Saphyr::Error.new "Unauthorized option: #{opt}"
             end
@@ -212,6 +224,10 @@ module Saphyr
         @opts[:nullable]
       end
 
+      def default?
+        @opts[:default] != :_none_
+      end
+
       # -----
 
       # Check if the field value is valid.
@@ -221,6 +237,7 @@ module Saphyr
       def validate(ctx, name, value)
         # NOTE: Nullable is handle by the engine.
         errors = []
+        return errors unless assert_class self.class::EXPECTED_TYPES, value, errors
         do_validate ctx, name, value, errors
         errors
       end

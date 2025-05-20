@@ -10,14 +10,14 @@ RSpec.shared_examples 'assert base eq' do
 
     context 'when valid data' do
       it 'return without error' do
-        subject.send :do_validate, nil, 'name', assert_value, errors
+        errors = subject.send :validate, nil, 'name', assert_value
         expect(errors.size).to eq 0
       end
     end
 
     context 'when invalid data' do
       it 'return an error' do
-        subject.send :do_validate, nil, 'name', assert_err_value, errors
+        errors = subject.send :validate, nil, 'name', assert_err_value
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq assert_prefix + ':eq'
         expect(errors.first[:data][:_val]).to eq assert_err_value

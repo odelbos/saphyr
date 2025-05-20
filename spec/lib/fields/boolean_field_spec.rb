@@ -37,21 +37,19 @@ RSpec.describe Saphyr::Fields::BooleanField do
   end
 
   describe '#do_validate' do
-
     let (:assert_prefix) { 'boolean' }
-    let(:errors) { [] }
     subject { described_class.new }
 
     context 'when valid data' do
       it 'return without error' do
-        subject.send :do_validate, nil, true, true, errors
+        errors = subject.send :validate, nil, true, true
         expect(errors.size).to eq 0
       end
     end
 
     context 'when invalid data' do
       it 'return an error' do
-        subject.send :do_validate, nil, true, 'err', errors
+        errors = subject.send :validate, nil, true, 'err'
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq assert_prefix + ':type'
         expect(errors.first[:data][:type]).to eq [TrueClass, FalseClass].to_s

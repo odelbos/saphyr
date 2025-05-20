@@ -6,7 +6,7 @@ module Saphyr
     # Allowed options are: +:eq, :len, :min, :max, :in, :regexp+.
     class StringField < FieldBase
       PREFIX = 'string'
-
+      EXPECTED_TYPES = String
       AUTHORIZED_OPTIONS = [:eq, :len, :min, :max, :in, :regexp]
 
       EXCLUSIVE_OPTIONS = [
@@ -28,7 +28,6 @@ module Saphyr
       private
 
         def do_validate(ctx, name, value, errors)
-          return unless assert_class String, value, errors
           assert_eq @opts[:eq], value, errors
           assert_size_len @opts[:len], value, errors
           assert_size_min @opts[:min], value, errors

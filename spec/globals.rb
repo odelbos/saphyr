@@ -41,12 +41,22 @@ module SaphyrTest
     field :upload, :schema, name: :file
   end
 
+  class OneFieldWithDefaultValidator < Saphyr::Validator
+    field :name, :string
+    field :active, :boolean, default: true
+  end
+
   # -----------------------------------------------------
   # Fields
   # -----------------------------------------------------
   # Globals fields shared by all tests
-  #
+
+  class TestFieldBase < Saphyr::Fields::FieldBase
+    EXPECTED_TYPES = String
+  end
+
   class FieldTest < Saphyr::Fields::FieldBase
+    EXPECTED_TYPES = String
     PREFIX = 'test'
   end
 end
