@@ -24,20 +24,12 @@ Generate the documentation in `./doc` folder:
 
 Start a http server and serve the documentation:
 
-    $ yard serve
+    $ yard server
 
 ## Run tests
 
 ```
 rspec
-```
-
-```
-rake
-```
-
-```
-rake spec
 ```
 
 ## Installation
