@@ -6,13 +6,12 @@ module Saphyr
     # Allowed options are: +:eq+.
     class BooleanField < FieldBase
       PREFIX = 'boolean'
-
+      EXPECTED_TYPES = [TrueClass, FalseClass]
       AUTHORIZED_OPTIONS = [:eq]
 
       private
 
         def do_validate(ctx, name, value, errors)
-          return unless assert_class [TrueClass, FalseClass], value, errors
           assert_eq @opts[:eq], value, errors
         end
     end

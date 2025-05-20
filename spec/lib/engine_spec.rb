@@ -10,7 +10,6 @@ RSpec.describe Saphyr::Engine do
   let(:path) { '//' }
   let(:errors) { [] }
 
-  # let(:ctx) { double("Saphyr::Engine::Context", validators: validators, schema: schema, data: data, fragment: fragment, path: path, errors: errors) }
   let(:ctx) { Saphyr::Engine::Context.new(validators, schema, data, fragment, path, errors) }
   let(:engine) { described_class.new(ctx) }
 

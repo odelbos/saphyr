@@ -3,7 +3,7 @@ module Saphyr
 
     class ArrayField < FieldBase
       PREFIX = 'array'
-
+      EXPECTED_TYPES = Array
       AUTHORIZED_OPTIONS = [:len, :min, :max, :of_type, :of_schema, :opts]
 
       REQUIRED_ONE_OF_OPTIONS = [:of_type, :of_schema]
@@ -34,7 +34,6 @@ module Saphyr
       private 
 
         def do_validate(ctx, name, value, errors)
-          return unless assert_class Array, value, errors
           assert_size_len @opts[:len], value, errors
           assert_size_min @opts[:min], value, errors
           assert_size_max @opts[:max], value, errors

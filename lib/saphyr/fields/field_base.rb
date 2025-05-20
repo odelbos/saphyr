@@ -24,6 +24,11 @@ module Saphyr
       # NOTE: 
       # Override following constants to manage options
 
+      # List of expected classes for the field. It can be an array of class names, or
+      # a single class name. EX: [TrueClass, FalseClass] or Integer.
+      # @note Overriding this class constant is mandatory.
+      EXPECTED_TYPES = nil
+
       # List of authorized options.
       # @note Override this class constant if you want to use this feature.
       AUTHORIZED_OPTIONS = []
@@ -55,8 +60,10 @@ module Saphyr
       # @note Override this class constant if you want to use this feature.
       NOT_SUP_OR_EQUALS_OPTIONS = []
 
-
       def initialize(opts={})
+        if self.class::EXPECTED_TYPES.nil?
+          raise Saphyr::Error.new "The 'EXPECTED_TYPES' constant must be defined"
+        end
         if opts.key? :required
           unless assert_boolean opts[:required]
             raise Saphyr::Error.new "Option ':required' must be a Boolean"
@@ -230,6 +237,7 @@ module Saphyr
       def validate(ctx, name, value)
         # NOTE: Nullable is handle by the engine.
         errors = []
+        return errors unless assert_class self.class::EXPECTED_TYPES, value, errors
         do_validate ctx, name, value, errors
         errors
       end

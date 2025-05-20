@@ -50,8 +50,13 @@ module SaphyrTest
   # Fields
   # -----------------------------------------------------
   # Globals fields shared by all tests
-  #
+
+  class TestFieldBase < Saphyr::Fields::FieldBase
+    EXPECTED_TYPES = String
+  end
+
   class FieldTest < Saphyr::Fields::FieldBase
+    EXPECTED_TYPES = String
     PREFIX = 'test'
   end
 end

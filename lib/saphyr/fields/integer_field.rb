@@ -6,7 +6,7 @@ module Saphyr
     # Allowed options are: +:eq, :gt, :gte, :lt, :lte, :in+.
     class IntegerField < FieldBase
       PREFIX = 'integer'
-
+      EXPECTED_TYPES = Integer
       AUTHORIZED_OPTIONS = [:eq, :gt, :gte, :lt, :lte, :in]
 
       EXCLUSIVE_OPTIONS = [
@@ -36,7 +36,6 @@ module Saphyr
       private
 
         def do_validate(ctx, name, value, errors)
-          return unless assert_class Integer, value, errors
           assert_eq @opts[:eq], value, errors
           assert_numeric_gt @opts[:gt], value, errors
           assert_numeric_gte @opts[:gte], value, errors
