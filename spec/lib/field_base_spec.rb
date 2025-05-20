@@ -22,14 +22,16 @@ RSpec.describe Saphyr::Fields::FieldBase do
       it 'assign values to default options' do
         expect(subject.opts[:required]).to be true
         expect(subject.opts[:nullable]).to be false
+        expect(subject.opts[:default]).to be :_none_
       end
     end
 
     context 'with default options provided' do
-      subject { described_class.new({required: false, nullable: true}) }
+      subject { described_class.new({required: false, nullable: true, default: :ok}) }
       it 'must set :required and :nullable default options' do
         expect(subject.opts[:required]).to be false
         expect(subject.opts[:nullable]).to be true
+        expect(subject.opts[:default]).to be :ok
       end
 
       it 'raises an error when :required is not a boolean' do
@@ -46,9 +48,10 @@ RSpec.describe Saphyr::Fields::FieldBase do
       it 'merge default options and extra options' do
         expect(subject.opts[:required]).to be true
         expect(subject.opts[:nullable]).to be false
+        expect(subject.opts[:default]).to be :_none_
         expect(subject.opts[:min]).to be 3
         expect(subject.opts[:max]).to be 10
-        expect(subject.opts.size).to be 4
+        expect(subject.opts.size).to be 5
       end
     end
 

@@ -22,8 +22,8 @@ RSpec.describe Saphyr::Engine do
 
   context '#validate' do
     let(:validator) { SaphyrTest::OneFieldNoOptValidator.new }
-    let(:valid_data) { { "name" => 'my item', } }
-    let(:invalid_data) { { "name" => 3, } }
+    let(:valid_data) { { "name" => 'my item' } }
+    let(:invalid_data) { { "name" => 3 } }
     let(:missing_in_schema_data) { { "name" => 'my item', 'missing' => 'err' } }
     let(:missing_in_data) { {} }
     let(:nil_data) { { "name" => nil, } }
@@ -141,6 +141,40 @@ RSpec.describe Saphyr::Engine do
         it 'has 0 errors' do
           engine.validate
           expect(ctx.errors.size).to be 0
+        end
+      end
+    end
+
+    context "when :default is provided" do
+      let(:validator) { SaphyrTest::OneFieldWithDefaultValidator.new }
+      let(:valid_1_data) { { 'name' => 'my item', 'active' => true } }
+      let(:valid_2_data) { { 'name' => 'my item', 'active' => false } }
+      let(:invalid_data) { { 'name' => 'my item' } }
+
+      context 'with valid data (equal to default)' do
+        let(:ctx) { Saphyr::Engine::Context.new(validators, validator.get_config, valid_1_data, nil, path, errors) }
+        it 'has 0 errors' do
+          engine.validate
+          expect(ctx.errors.size).to be 0
+          expect(valid_1_data['active']).to be true
+        end
+      end
+
+      context 'with valid data (not equal to default)' do
+        let(:ctx) { Saphyr::Engine::Context.new(validators, validator.get_config, valid_2_data, nil, path, errors) }
+        it 'has 0 errors' do
+          engine.validate
+          expect(ctx.errors.size).to be 0
+          expect(valid_2_data['active']).to be false
+        end
+      end
+
+      context 'with invalid data' do
+        let(:ctx) { Saphyr::Engine::Context.new(validators, validator.get_config, invalid_data, nil, path, errors) }
+        it 'has 0 errors' do
+          engine.validate
+          expect(ctx.errors.size).to be 0
+          expect(invalid_data['active']).to be true
         end
       end
     end

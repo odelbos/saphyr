@@ -17,7 +17,7 @@ module Saphyr
 
       # Every field type has the +:required+ and +:nullable+ options.
       # @api private
-      DEFAULT_OPT_VALUES = {required: true, nullable: false}.freeze
+      DEFAULT_OPT_VALUES = {required: true, nullable: false, default: :_none_}.freeze
       # @api private
       DEFAULT_OPTS = DEFAULT_OPT_VALUES.keys.freeze
 
@@ -68,9 +68,14 @@ module Saphyr
           end
         end
 
+        #
+        # TODO: If the :default option is defined, we to check if the type
+        # if compatible with field
+        #
+
         unless authorized_options.size == 0
           opts.keys.each do |opt|
-            next if  opt == :required or opt == :nullable
+            next if opt == :required or opt == :nullable or opt == :default
             unless authorized_options.include? opt
               raise Saphyr::Error.new "Unauthorized option: #{opt}"
             end
@@ -210,6 +215,10 @@ module Saphyr
       # Is the field nullable?
       def nullable?
         @opts[:nullable]
+      end
+
+      def default?
+        @opts[:default] != :_none_
       end
 
       # -----

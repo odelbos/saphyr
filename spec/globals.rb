@@ -41,6 +41,11 @@ module SaphyrTest
     field :upload, :schema, name: :file
   end
 
+  class OneFieldWithDefaultValidator < Saphyr::Validator
+    field :name, :string
+    field :active, :boolean, default: true
+  end
+
   # -----------------------------------------------------
   # Fields
   # -----------------------------------------------------
