@@ -1,8 +1,10 @@
 
-def validate(validator, data)
-  puts '--------------------------------------------'
-  puts ' With valid data'
-  puts '--------------------------------------------'
+def validate(validator, data, show_header=true)
+  if show_header
+    puts '--------------------------------------------'
+    puts ' With valid data'
+    puts '--------------------------------------------'
+  end
   if validator.validate data
     puts "\nValidation : SUCCESS", "\n"
   else
