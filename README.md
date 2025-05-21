@@ -1,5 +1,5 @@
 [![Testing](https://github.com/odelbos/saphyr/actions/workflows/test.yml/badge.svg)](https://github.com/odelbos/saphyr/actions/workflows/test.yml)
-[![Gem Version](https://badge.fury.io/rb/saphyr.svg?t=1)](https://badge.fury.io/rb/saphyr)
+[![Gem Version](https://badge.fury.io/rb/saphyr.svg?t=0.5.0)](https://badge.fury.io/rb/saphyr)
 ![License](https://img.shields.io/badge/license-MIT-blueviolet.svg)
 
 # Saphyr
