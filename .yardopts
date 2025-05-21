@@ -7,3 +7,4 @@ LICENSE
 rdoc/01_Define_Schema.md
 rdoc/02_Field_Types.md
 rdoc/03_Strict_Mode.md
+rdoc/04_Define_Custom_Field_Type.md
