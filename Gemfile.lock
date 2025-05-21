@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    saphyr (0.4.2.beta)
+    saphyr (0.5.0)
 
 GEM
   remote: https://rubygems.org/

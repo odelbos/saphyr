@@ -1,13 +1,16 @@
-No changelog update during all the beta development phase.
+-----------------------------------------------------------------
+Version: 0.5.0 - 2025-05-21
+
+- Refactor the way we validate field type
+  Adding EXPECTED_TYPES to field_base to automate the check
+- Add :default option to field
 
 -----------------------------------------------------------------
 Version: 0.4.2.beta - 2025-05-06
------------------------------------------------------------------
 
 - Fix CVE-2024-47220 upgrade webrick to ~> 1.8.2
 
 -----------------------------------------------------------------
 Version: 0.1.0.beta - 2023-08-30
------------------------------------------------------------------
 
 - Initial release
