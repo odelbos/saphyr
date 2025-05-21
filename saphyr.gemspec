@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = "The purpose of Saphyr is to provide a nice and simple DSL to easily and quickly design a validation schema for JSON document."
   spec.homepage = "https://github.com/odelbos/saphyr"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.6.0"
+  spec.required_ruby_version = ">= 2.7.0"
 
   spec.metadata = {
     "homepage_uri"     => spec.homepage,
