@@ -5,7 +5,7 @@
 # Saphyr
 
 The purpose of `Saphyr` gem is to provide a simple DSL to easily and quickly
-design a validation schema for JSON document.  
+design a validation schema for JSON document (or `Hash` structure).
 
 _**Note :**_
 
@@ -39,7 +39,7 @@ Add it to your Gemfile:
     $ bundle add saphyr
     $ bundle install
 
-Install the gem:
+Install the gem (globally):
 
     $ gem install saphyr
 
@@ -60,9 +60,9 @@ data = {                      # --- Rules ---
 
 class ItemValidator < Saphyr::Validator
   field :id,      :integer,  gt: 0
-  field :type,    :integer,  in: [1, 2, 3]
-  field :price,   :float,    gt: 0
-  field :name,    :string,   min: 5, max: 15
+  field :type,    :integer,  in: [1, 2, 3]          # Field name can be a
+  field "price",  :float,    gt: 0                  # Symbol or a String
+  field "name",   :string,   min: 5, max: 15
   field :active,  :boolean
 end
 ```
@@ -135,6 +135,34 @@ class ItemValidator < Saphyr::Validator
   field :timestamps,  :schema,   name: :timestamp
   field :active,      :boolean,  eq: true
 end
+```
+
+## Default field value
+
+```ruby
+data = {                      # --- Rules ---
+  "id" => 236                 # Integer > 0
+                              # field 'active' is missing
+}
+
+class ItemValidator < Saphyr::Validator
+  field :id,      :integer,  gt: 0
+  field :active,  :boolean,  default: true
+end
+```
+
+```ruby
+v = ItemValidator.new
+v.validate data           # Will success
+```
+
+After the validation, the `active` field is added to `data` with his default value:
+
+```ruby
+data = {
+  "id" => 236,
+  "active" => true
+}
 ```
 
 ## When root is an array
@@ -241,7 +269,7 @@ Casting is applied before validation.
 class ItemValidator < Saphyr::Validator
 
   # Using a method call
-  cast :created_at, :created_at_cast
+  cast :created_at, :cast_created_at
 
   # Using a lambda
   cast :active, -> (value) {
@@ -259,12 +287,33 @@ class ItemValidator < Saphyr::Validator
 
   private
 
-    def created_at_cast(value)
+    def cast_created_at(value)
       begin
         return DateTime.parse(value).to_time.to_i
       end
       value
     end
+end
+```
+
+## Global schemas:
+
+```ruby
+Saphyr.register do
+  schema :timestamp do
+    field :created_at,   :integer,  gt: 0
+    field :modified_at,  :integer,  gt: 0
+  end
+end
+
+class ItemValidator < Saphyr::Validator
+  # ....
+  field :timestamps, :schema, name: :timestamp
+end
+
+class PostValidator < Saphyr::Validator
+  # ....
+  field "timestamps", :schema, name: :timestamp
 end
 ```
 
@@ -297,8 +346,8 @@ The gem is available as open source under the terms of the [MIT License](https:/
 - [X] Add validation engine
 - [X] Add conditional field
 - [X] Add field casting
-- [ ] Add default value to field
-- [ ] Add more internal fields (b64, b62, uuid, ipv4, ipv4, ...)
+- [X] Add default value to field
+- [ ] Add more internal fields (b64, b62, uuid, ipv4, ipv6, ...)
 
 # Author
 
