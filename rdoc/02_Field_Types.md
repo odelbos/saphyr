@@ -4,7 +4,7 @@ By default the `Saphyr` library is including many field types.
 
 ## Common options
 
-All field type have the common `:required`, `:nullable`.
+All field type have the common `:required`, `:nullable` and `:nullable` options.
 
 ## String
 
@@ -15,10 +15,10 @@ Here is an example with all possible options for `:string` type:
 ```ruby
 class MyValidator < Saphyr::Validator
   field :name,      :string
-  field :name,      :string,  eq: 'v1.1'
-  field :name,      :string,  min: 5, max: 50
-  field :name,      :string,  max: 50
-  field :name,      :string,  len: 15
+  field :name,      :string,  eq: 'v1.1'               # Field name can be a
+  field "name",     :string,  min: 5, max: 50          # Symbol or a String
+  field "name",     :string,  max: 50
+  field "name",     :string,  len: 15
   field :name,      :string,  len: 15, regexp: /^[a-f0-9]+$/
   field :name,      :string,  regexp: /^[A-Z0-9]{15}$/
   field :name,      :string,  in: ['jpg', 'png', 'gif']
@@ -42,15 +42,15 @@ Here is an example with all possible options for `:integer` type:
 
 ```ruby
 class MyValidator < Saphyr::Validator
-  field :count,  :integer
-  field :count,  :integer,  eq: 'v1.1'
-  field :count,  :integer,  gt: 0
-  field :count,  :integer,  lt: 50
-  field :count,  :integer,  gte: 5, lte: 50
-  field :count,  :integer,  in: ['jpg', 'png', 'gif']
+  field :name,  :integer
+  field :name,  :integer,  eq: 'v1.1'
+  field :name,  :integer,  gt: 0
+  field :name,  :integer,  lt: 50
+  field :name,  :integer,  gte: 5, lte: 50
+  field :name,  :integer,  in: ['jpg', 'png', 'gif']
 
   field :count,  :integer,  required: false, gte: 10
-  field :count,  :integer,  nullable: true, lte: 1024
+  field :round,  :integer,  nullable: true, lte: 1024
 end
 ```
 
@@ -65,15 +65,15 @@ Here is an example with all possible options for `:float` type:
 
 ```ruby
 class MyValidator < Saphyr::Validator
-  field :price,  :float
-  field :price,  :float,  eq: 15.1
-  field :price,  :float,  gt: 0
-  field :price,  :float,  lt: 50
-  field :price,  :float,  gte: 5, lte: 50
-  field :price,  :float,  in: ['jpg', 'png', 'gif']
+  field :name,  :float
+  field :name,  :float,  eq: 15.1
+  field :name,  :float,  gt: 0
+  field :name,  :float,  lt: 50
+  field :name,  :float,  gte: 5, lte: 50
+  field :name,  :float,  in: ['jpg', 'png', 'gif']
 
-  field :price,  :float,  required: false, gte: 10
-  field :price,  :float,  nullable: true, lte: 1024
+  field :price,     :float,  required: false, gte: 10
+  field :discount,  :float,  nullable: true, lte: 1024
 end
 ```
 
@@ -88,12 +88,12 @@ Here is an example with all possible options for `:boolean` type:
 
 ```ruby
 class MyValidator < Saphyr::Validator
-  field :active,  :boolean
-  field :active,  :boolean,  eq: true
-  field :active,  :boolean,  eq: false
+  field :name,  :boolean
+  field :name,  :boolean,  eq: true
+  field :name,  :boolean,  eq: false
 
-  field :active,  :boolean,  required: false
-  field :active,  :boolean,  nullable: true
+  field :active,     :boolean,  required: false
+  field :processed,  :boolean,  nullable: true
 end
 ```
 
