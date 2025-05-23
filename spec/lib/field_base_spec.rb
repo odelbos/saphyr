@@ -31,14 +31,14 @@ RSpec.describe Saphyr::Fields::FieldBase do
     subject { test_class.new }
 
     context 'without any options' do
-      it 'assign values to default options' do
+      it 'assign values to default option' do
         expect(subject.opts[:required]).to be true
         expect(subject.opts[:nullable]).to be false
         expect(subject.opts[:default]).to be :_none_
       end
     end
 
-    context 'with default options provided' do
+    context 'with default option provided' do
       subject { test_class.new({required: false, nullable: true, default: 'ok'}) }
       it 'must set :required and :nullable default options' do
         expect(subject.opts[:required]).to be false
@@ -55,15 +55,15 @@ RSpec.describe Saphyr::Fields::FieldBase do
       end
     end
 
-    context 'with extra options provided' do
-      subject { test_class.new({min: 3, max: 10}) }
-      it 'merge default options and extra options' do
-        expect(subject.opts[:required]).to be true
-        expect(subject.opts[:nullable]).to be false
-        expect(subject.opts[:default]).to be :_none_
-        expect(subject.opts[:min]).to be 3
-        expect(subject.opts[:max]).to be 10
-        expect(subject.opts.size).to be 5
+    context 'with bad default option type provided' do
+      it 'raises an error: bad default type' do
+        expect { test_class.new({default: :bad_type}) }.to raise_error(Saphyr::Error)
+      end
+    end
+
+    context 'when AUTHORIZED_OPTIONS not defined and extra options provided' do
+      it 'raises an error: Options are not allowed' do
+        expect { test_class.new({min: 3, max: 10}) }.to raise_error(Saphyr::Error)
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when provided options are authorised' do
         it 'create a new instance' do
-          field = test_class.new({ opt1: 1, opt2: 2 })
+          field = test_class.new({opt1: 1, opt2: 2})
           expect(field).to be_a Saphyr::Fields::FieldBase
           expect(field.opts[:opt1]).to eq 1
           expect(field.opts[:opt2]).to eq 2
@@ -86,7 +86,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when provided options are not authorised' do
         it 'raise an exception' do
-          expect { test_class.new({ err1: 1, err2: 2 }) }.to raise_error Saphyr::Error
+          expect { test_class.new({err1: 1, err2: 2}) }.to raise_error Saphyr::Error
         end
       end
     end
@@ -96,14 +96,13 @@ RSpec.describe Saphyr::Fields::FieldBase do
         Class.new(Saphyr::Fields::FieldBase) {
           self.const_set 'EXPECTED_TYPES', String
           self.const_set 'AUTHORIZED_OPTIONS', [:opt1, :opt2]
-          required_options = [:opt1 ]
-          self.const_set 'REQUIRED_OPTIONS', required_options
+          self.const_set 'REQUIRED_OPTIONS', [:opt1]
         }
       }
 
       context 'when required option is provided' do
         it 'create a new instance' do
-          field = test_class.new({ opt1: 1 })
+          field = test_class.new({opt1: 1})
           expect(field).to be_a Saphyr::Fields::FieldBase
           expect(field.opts[:opt1]).to eq 1
         end
@@ -121,20 +120,19 @@ RSpec.describe Saphyr::Fields::FieldBase do
         Class.new(Saphyr::Fields::FieldBase) {
           self.const_set 'EXPECTED_TYPES', String
           self.const_set 'AUTHORIZED_OPTIONS', [:opt1, :opt2]
-          one_of_options = [:opt1, :opt2]
-          self.const_set 'REQUIRED_ONE_OF_OPTIONS', one_of_options
+          self.const_set 'REQUIRED_ONE_OF_OPTIONS', [:opt1, :opt2]
         }
       }
 
       context 'when one required option is provided' do
         it 'create a new instance with first option' do
-          field = test_class.new({ opt1: 1 })
+          field = test_class.new({opt1: 1})
           expect(field).to be_a Saphyr::Fields::FieldBase
           expect(field.opts[:opt1]).to eq 1
         end
 
         it 'create a new instance with second option' do
-          field = test_class.new({ opt2: 2 })
+          field = test_class.new({opt2: 2})
           expect(field).to be_a Saphyr::Fields::FieldBase
           expect(field.opts[:opt2]).to eq 2
         end
@@ -148,7 +146,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when two options are provided' do
         it 'raise an exception' do
-          expect { test_class.new({ opt1: 1, opt2: 2 }) }.to raise_error Saphyr::Error
+          expect { test_class.new({opt1: 1, opt2: 2}) }.to raise_error Saphyr::Error
         end
       end
     end
@@ -167,7 +165,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when provided options are correct' do
         it 'create a new instance' do
-          field = test_class.new({ opt1: 1, opt2: 2 })
+          field = test_class.new({opt1: 1, opt2: 2})
           expect(field).to be_a Saphyr::Fields::FieldBase
           expect(field.opts[:opt1]).to eq 1
           expect(field.opts[:opt2]).to eq 2
@@ -176,7 +174,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when provided options are not correct' do
         it 'raise an exception' do
-          expect { test_class.new({ err1: 1, err3: 3 }) }.to raise_error Saphyr::Error
+          expect { test_class.new({err1: 1, err3: 3}) }.to raise_error Saphyr::Error
         end
       end
 
@@ -194,19 +192,19 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
         context 'when provided options are correct' do
           it 'create a new instance' do
-            field = test_class.new({ opt1: 1 })
+            field = test_class.new({opt1: 1})
             expect(field).to be_a Saphyr::Fields::FieldBase
             expect(field.opts[:opt1]).to eq 1
 
-            field = test_class.new({ opt2: 2 })
+            field = test_class.new({opt2: 2})
             expect(field).to be_a Saphyr::Fields::FieldBase
             expect(field.opts[:opt2]).to eq 2
 
-            field = test_class.new({ opt3: 3 })
+            field = test_class.new({opt3: 3})
             expect(field).to be_a Saphyr::Fields::FieldBase
             expect(field.opts[:opt3]).to eq 3
 
-            field = test_class.new({ opt2: 2, opt3: 3 })
+            field = test_class.new({opt2: 2, opt3: 3})
             expect(field).to be_a Saphyr::Fields::FieldBase
             expect(field.opts[:opt2]).to eq 2
             expect(field.opts[:opt3]).to eq 3
@@ -215,8 +213,8 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
         context 'when provided options are not correct' do
           it 'raise an exception' do
-            expect { test_class.new({ err1: 1, err2: 2 }) }.to raise_error Saphyr::Error
-            expect { test_class.new({ err1: 1, err3: 3 }) }.to raise_error Saphyr::Error
+            expect { test_class.new({err1: 1, err2: 2}) }.to raise_error Saphyr::Error
+            expect { test_class.new({err1: 1, err3: 3}) }.to raise_error Saphyr::Error
           end
         end
       end
@@ -236,7 +234,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when provided options are correct' do
         it 'create a new instance' do
-          field = test_class.new({ opt1: 3, opt2: 5 })
+          field = test_class.new({opt1: 3, opt2: 5})
           expect(field).to be_a Saphyr::Fields::FieldBase
           expect(field.opts[:opt1]).to eq 3
           expect(field.opts[:opt2]).to eq 5
@@ -245,7 +243,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when provided options are not correct' do
         it 'raise an exception' do
-          expect { test_class.new({ opt1: 5, opt2: 3 }) }.to raise_error Saphyr::Error
+          expect { test_class.new({opt1: 5, opt2: 3}) }.to raise_error Saphyr::Error
         end
       end
     end
@@ -264,7 +262,7 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when provided options are correct' do
         it 'create a new instance' do
-          field = test_class.new({ opt1: 3, opt2: 5 })
+          field = test_class.new({opt1: 3, opt2: 5})
           expect(field).to be_a Saphyr::Fields::FieldBase
           expect(field.opts[:opt1]).to eq 3
           expect(field.opts[:opt2]).to eq 5
@@ -273,8 +271,8 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
       context 'when provided options are not correct' do
         it 'raise an exception' do
-          expect { test_class.new({ opt1: 5, opt2: 3 }) }.to raise_error Saphyr::Error
-          expect { test_class.new({ opt1: 5, opt2: 5 }) }.to raise_error Saphyr::Error
+          expect { test_class.new({opt1: 5, opt2: 3}) }.to raise_error Saphyr::Error
+          expect { test_class.new({opt1: 5, opt2: 5}) }.to raise_error Saphyr::Error
         end
       end
     end
@@ -336,10 +334,11 @@ RSpec.describe Saphyr::Fields::FieldBase do
       let(:test_class) {
         Class.new(Saphyr::Fields::FieldBase) {
           self.const_set 'EXPECTED_TYPES', String
-          self.const_set 'REQUIRED_OPTIONS', [ :opt1 ]
+          self.const_set 'AUTHORIZED_OPTIONS', [:opt1]
+          self.const_set 'REQUIRED_OPTIONS', [:opt1]
         }
       }
-      subject { test_class.new({ opt1: 1 }) }
+      subject { test_class.new({opt1: 1}) }
 
       it 'return the REQUIRED_OPTIONS class constant' do
         expect(subject.required_options).to be_an_instance_of Array
@@ -553,10 +552,10 @@ RSpec.describe Saphyr::Fields::FieldBase do
 
   describe '#validate' do
     let(:validator) { SaphyrTest::OneFieldNoOptValidator.new }
-    let(:valid_data) { { "name" => 'my item', } }
-    let(:invalid_data) { { "name" => 3, } }
+    let(:valid_data) { {"name" => 'my item'} }
+    let(:invalid_data) { {"name" => 3} }
 
-    let(:missing_in_schema_data) { { "name" => 'my item', 'missing' => 'err' } }
+    let(:missing_in_schema_data) { {"name" => 'my item', 'missing' => 'err'} }
     let(:missing_in__data) { {} }
 
     context 'with valid data' do

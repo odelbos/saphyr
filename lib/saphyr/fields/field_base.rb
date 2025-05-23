@@ -80,7 +80,13 @@ module Saphyr
           end
         end
 
-        unless authorized_options.size == 0
+        if authorized_options.size == 0
+          opts.keys.each do |opt|
+            unless [:required, :nullable, :default].include? opt
+              raise Saphyr::Error.new "Options are not allowed for this field type: '#{opt}'"
+            end
+          end
+        else
           opts.keys.each do |opt|
             next if opt == :required or opt == :nullable or opt == :default
             unless authorized_options.include? opt
