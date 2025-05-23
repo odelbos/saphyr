@@ -31,14 +31,14 @@ RSpec.describe Saphyr::Fields::FieldBase do
     subject { test_class.new }
 
     context 'without any options' do
-      it 'assign values to default options' do
+      it 'assign values to default option' do
         expect(subject.opts[:required]).to be true
         expect(subject.opts[:nullable]).to be false
         expect(subject.opts[:default]).to be :_none_
       end
     end
 
-    context 'with default options provided' do
+    context 'with default option provided' do
       subject { test_class.new({required: false, nullable: true, default: 'ok'}) }
       it 'must set :required and :nullable default options' do
         expect(subject.opts[:required]).to be false
@@ -53,10 +53,12 @@ RSpec.describe Saphyr::Fields::FieldBase do
       it 'raises an error when :nullable is not a boolean' do
         expect { described_class.new({nullable: 1}) }.to raise_error(Saphyr::Error)
       end
+    end
 
-      #
-      # TODO: It raise an error is :default is not of the correct type
-      #
+    context 'with bad default option type provided' do
+      it 'raises an error: bad default type' do
+        expect { test_class.new({default: :bad_type}) }.to raise_error(Saphyr::Error)
+      end
     end
 
     context 'when AUTHORIZED_OPTIONS not defined and extra options provided' do
