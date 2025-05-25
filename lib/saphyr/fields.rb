@@ -9,5 +9,7 @@ module Saphyr
     require_relative './fields/integer_field'
     require_relative './fields/float_field'
     require_relative './fields/boolean_field'
+
+    require_relative './fields/email_field'
   end
 end
