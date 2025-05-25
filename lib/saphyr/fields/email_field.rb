@@ -21,7 +21,6 @@ module Saphyr
               }
             }
           end
-          true
         end
     end
   end
