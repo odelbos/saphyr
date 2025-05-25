@@ -157,6 +157,6 @@ Saphyr.register do
   field_type :integer, Saphyr::Fields::IntegerField
   field_type :float, Saphyr::Fields::FloatField
   field_type :boolean, Saphyr::Fields::BooleanField
-
   field_type :email, Saphyr::Fields::EmailField
+  field_type :uri, Saphyr::Fields::UriField
 end
