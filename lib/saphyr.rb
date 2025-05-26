@@ -159,4 +159,5 @@ Saphyr.register do
   field_type :boolean, Saphyr::Fields::BooleanField
   field_type :email, Saphyr::Fields::EmailField
   field_type :uri, Saphyr::Fields::UriField
+  field_type :url, Saphyr::Fields::UrlField
 end

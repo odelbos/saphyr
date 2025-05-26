@@ -1,7 +1,6 @@
 module Saphyr
   module Fields
     require_relative './fields/field_base'
-
     require_relative './fields/array_field'
     require_relative './fields/schema_field'
 
@@ -11,5 +10,6 @@ module Saphyr
     require_relative './fields/boolean_field'
     require_relative './fields/email_field'
     require_relative './fields/uri_field'
+    require_relative './fields/url_field'
   end
 end
