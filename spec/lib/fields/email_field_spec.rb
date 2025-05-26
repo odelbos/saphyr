@@ -27,8 +27,8 @@ RSpec.describe Saphyr::Fields::EmailField do
       end
     end
 
-    context 'when valid data' do
-      it 'return without error' do
+    context 'when invalid data' do
+      it 'return with error' do
         errors = subject.send :validate, nil, 'email', 'bad email'
         expect(errors.size).to eq 1
         expect(errors.first[:type]).to eq prefix + ':invalid'
