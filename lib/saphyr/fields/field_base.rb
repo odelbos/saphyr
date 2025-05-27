@@ -61,7 +61,7 @@ module Saphyr
       NOT_SUP_OR_EQUALS_OPTIONS = []
 
       def initialize(opts={})
-        if self.class::EXPECTED_TYPES.nil?
+        if expected_types.nil?
           raise Saphyr::Error.new "The 'EXPECTED_TYPES' constant must be defined"
         end
         if opts.key? :required
@@ -75,7 +75,7 @@ module Saphyr
           end
         end
         if opts.key? :default
-          unless assert_class self.class::EXPECTED_TYPES, opts[:default], []
+          unless assert_class expected_types, opts[:default], []
             raise Saphyr::Error.new "Option ':default' bad type. Expecting: '#{self.class::EXPECTED_TYPES.to_s}', got: '#{opts[:default].class.name}'"
           end
         end
@@ -168,6 +168,12 @@ module Saphyr
       end
 
       # -----
+
+      # Get the +EXPECTED_TYPES+ options
+      # @return [Array]
+      def expected_types
+        self.class::EXPECTED_TYPES
+      end
 
       # Get the +AUTHORIZED_OPTIONS+ options
       # @return [Array]
