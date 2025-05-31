@@ -23,7 +23,6 @@ RSpec.describe Saphyr::Fields::UrlField do
     context 'when valid data' do
       it 'return without error for http url' do
         errors = subject.send :validate, nil, 'url', 'http://test.com/page.html'
-        p errors
         expect(errors.size).to eq 0
       end
 
