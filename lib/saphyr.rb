@@ -160,4 +160,5 @@ Saphyr.register do
   field_type :email, Saphyr::Fields::EmailField
   field_type :uri, Saphyr::Fields::UriField
   field_type :url, Saphyr::Fields::UrlField
+  field_type :b64, Saphyr::Fields::B64Field
 end

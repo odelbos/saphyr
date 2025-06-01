@@ -11,5 +11,6 @@ module Saphyr
     require_relative './fields/email_field'
     require_relative './fields/uri_field'
     require_relative './fields/url_field'
+    require_relative './fields/b64_field'
   end
 end
