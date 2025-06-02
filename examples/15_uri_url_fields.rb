@@ -6,8 +6,11 @@ require_relative './common'
 # ----------------------------------------------
 class ItemValidator < Saphyr::Validator
   field :id,       :integer,  gt: 0
-  field :isbn,     :url
-  field :location, :url
+  field :email,    :uri
+  field :isbn,     :uri
+  field :location, :uri
+  field :site,     :url
+  field :blog,     :url
 end
 
 
@@ -16,14 +19,20 @@ end
 # ----------------------------------------------
 VALID_DATA = {
   "id"       => 65,
-  "isbn"     => 'http://www.test.com/',
-  "location" => 'http://test.com/page.html',
+  "email"    => 'valid@email.com',
+  "isbn"     => 'urn:isbn:0451450523',
+  "location" => 'https://example.com/page.html',
+  "site"     => 'http://www.test.com/',
+  "blog"     => 'http://test.com/page.html',
 }
 
 ERROR_DATA = {
   "id"       => 65,
-  "isbn"     => 'urn:isbn:0451450523',  # Error: Bad URL
-  "location" => 'not a url',            # Error: Bad URL
+  "email"    => 'not a email',          # Error: Bad URI
+  "isbn"     => 'not a isbn',           # Error: Bad URI
+  "location" => 'not a location',       # Error: Bad URI
+  "site"     => 'urn:isbn:0451450523',  # Error: Bad URL
+  "blog"     => 'not a url',            # Error: Bad URL
 }
 
 
