@@ -47,7 +47,7 @@ class MyValidator < Saphyr::Validator
   field :name,  :integer,  gt: 0
   field :name,  :integer,  lt: 50
   field :name,  :integer,  gte: 5, lte: 50
-  field :name,  :integer,  in: ['jpg', 'png', 'gif']
+  field :name,  :integer,  in: [10, 20, 30, 40]
 
   field :count,  :integer,  required: false, gte: 10
   field :round,  :integer,  nullable: true, lte: 1024
@@ -70,7 +70,7 @@ class MyValidator < Saphyr::Validator
   field :name,  :float,  gt: 0
   field :name,  :float,  lt: 50
   field :name,  :float,  gte: 5, lte: 50
-  field :name,  :float,  in: ['jpg', 'png', 'gif']
+    field :name,  :float,  in: [3.14, 1.618, 6.35]
 
   field :price,     :float,  required: false, gte: 10
   field :discount,  :float,  nullable: true, lte: 1024
@@ -127,7 +127,7 @@ class MyValidator < Saphyr::Validator
   #                             |                                  |
   # Size of array must be: 1 >= s <= 10                            |
   #                                                                |
-  #               This 'opts' are for the element of array, ie: 'string'
+  #               This 'opts' are for the elements of the array, ie: 'string'
 end
 ```
 
@@ -147,7 +147,7 @@ data = {
 class MyValidator < Saphyr::Validator
   schema :tag do
     field :id,     :integer,  gt: 0
-    field :label,  :string,   min: 5, max: 30
+    field :label,  :string,   min: 2, max: 30
   end
 
   field :code,  :string,  min: 5,  max: 10
