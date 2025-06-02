@@ -33,7 +33,6 @@ end
 - If you use `:len` option then you cannot use `:min` and `:max` options
 - If you use `:in` option then you cannot use any of the other options
 
-
 ## Integer
 
 Authorized options for the `:integer` type: `[:eq, :gt, :gte, :lt, :lte, :in]`
@@ -96,6 +95,45 @@ class MyValidator < Saphyr::Validator
   field :processed,  :boolean,  nullable: true
 end
 ```
+
+## URI and URL
+
+No options allowed for the `:uri` and `:url` types.
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :email,    :uri       # valid@email.com
+  field :isbn,     :uri       # urn:isbn:0451450523
+  field :location, :uri       # https://example.com/page.html
+
+  field :site,     :url       # http://www.test.com/
+  field :blog,     :url       # http://test.com/page.html
+end
+```
+
+
+## Base64
+
+Authorized options for the `:b64` type: `[:strict]`
+
+Here is an example with all possible options for `:b64` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :content,  :b64                    # By default :strict == true
+  field :text,     :b64,  strict: false
+end
+```
+
+In strict mode `:strict == true`:
+
+- Line breaks are not allowed
+- Padding must be correct (length % 4 == 0)
+
+Not in strict mode `:strict == false`:
+
+- Line breaks are allowed
+- Padding is not required
 
 ## Array
 
