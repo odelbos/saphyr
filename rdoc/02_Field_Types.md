@@ -129,6 +129,20 @@ Not in strict mode `:strict == false`:
 - Line breaks are allowed
 - Padding is not required
 
+## IP
+
+Authorized options for the `:ip` type: `[:kind]`
+
+Here is an example with all possible options for `:ip` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :web1,   :ip                 # Can be ipv4 or ipv6
+  field :db,     :ip,  kind: :ipv4   # Must be an ipv4
+  field :cache,  :ip,  kind: :ipv6   # Must be an ipv6
+end
+```
+
 ## Array
 
 Authorized options for the `:array` type: `[:len, :min, :max, :of_type, :of_schema, :opts]`
