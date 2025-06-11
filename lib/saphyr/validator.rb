@@ -95,7 +95,7 @@ module Saphyr
     # -----
 
     # Validate an already parsed JSON document.
-    # @param [Hash | Array] The data to validate.
+    # @param data [Hash | Array] The data to validate.
     # @return [Boolean] Wheter the validation was successful or failed.
     def validate(data)
       @ctx = Saphyr::Engine::Context.new [self], get_config, data, nil, '//'
@@ -119,7 +119,7 @@ module Saphyr
     end
 
     # Get a field from the data to validate.
-    # @param [String | Symbol] The field name
+    # @param field [String | Symbol] The field name
     # @return The field value
     def get(field)
       data = @ctx.data_to_validate
