@@ -162,4 +162,6 @@ Saphyr.register do
   field_type :url, Saphyr::Fields::UrlField
   field_type :b64, Saphyr::Fields::B64Field
   field_type :ip, Saphyr::Fields::IpField
+  field_type :iso_country, Saphyr::Fields::IsoCountryField
+  field_type :iso_lang, Saphyr::Fields::IsoLangField
 end

@@ -143,6 +143,40 @@ class MyValidator < Saphyr::Validator
 end
 ```
 
+## Country (ISO-3166-1 alpha 2/3)
+
+Authorized options for the `:iso_country` type: `[:alpha]`
+
+Here is an example with all possible options for `:iso_country` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :country1,  :iso_country              # Default : ISO-3166-1 alpha-2
+  field :country2,  :iso_country, alpha: 2
+  field :country3,  :iso_country, alpha: 3
+end
+```
+
+- `:alpha = 2` : Mean ISO-3166-1 alpha-2
+- `:alpha = 3` : Mean ISO-3166-1 alpha-3
+
+## Language (ISO-639-1, ISO-639-2)
+
+Authorized options for the `:iso_lang` type: `[:version]`
+
+Here is an example with all possible options for `:iso_lang` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :lang1,  :iso_lang                 # Default : ISO-639-1
+  field :lang2,  :iso_lang, version: 1
+  field :lang3,  :iso_lang, version: 2
+end
+```
+
+- `:version = 1` : Mean ISO-639-1
+- `:version = 2` : Mean ISO-639-2
+
 ## Array
 
 Authorized options for the `:array` type: `[:len, :min, :max, :of_type, :of_schema, :opts]`

@@ -13,5 +13,7 @@ module Saphyr
     require_relative './fields/url_field'
     require_relative './fields/b64_field'
     require_relative './fields/ip_field'
+    require_relative './fields/iso_country_field'
+    require_relative './fields/iso_lang_field'
   end
 end
