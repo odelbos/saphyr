@@ -164,4 +164,5 @@ Saphyr.register do
   field_type :ip, Saphyr::Fields::IpField
   field_type :iso_country, Saphyr::Fields::IsoCountryField
   field_type :iso_lang, Saphyr::Fields::IsoLangField
+  field_type :datetime, Saphyr::Fields::DateTimeField
 end

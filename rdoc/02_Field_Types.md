@@ -177,6 +177,19 @@ end
 - `:version = 1` : Mean ISO-639-1
 - `:version = 2` : Mean ISO-639-2
 
+## DateTime
+
+Authorized options for the `:datetime` type: `[:format]`
+
+Here is an example with all possible options for `:format` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :datetime1,  :datetime            # Any valid format
+  field :datetime2,  :datetime, format: '%d/%m/%Y %H:%M:%S'
+end
+```
+
 ## Array
 
 Authorized options for the `:array` type: `[:len, :min, :max, :of_type, :of_schema, :opts]`

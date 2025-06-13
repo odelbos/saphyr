@@ -15,5 +15,6 @@ module Saphyr
     require_relative './fields/ip_field'
     require_relative './fields/iso_country_field'
     require_relative './fields/iso_lang_field'
+    require_relative './fields/datetime_field'
   end
 end
