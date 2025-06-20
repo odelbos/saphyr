@@ -99,6 +99,13 @@ module Saphyr
           end
 
           # ------------------------------------
+          # Not Empty
+          # ------------------------------------
+          if type.end_with? 'not-empty'
+            return 'Cannot be empty'
+          end
+
+          # ------------------------------------
           # Not Nullable
           # ------------------------------------
           if type == 'not-nullable'

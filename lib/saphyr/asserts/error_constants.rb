@@ -5,6 +5,7 @@ module Saphyr
       # Base
       ERR_NOT_NULLABLE = 'not-nullable'
       ERR_BAD_FORMAT = 'bad-format'
+      ERR_NOT_EMPTY = 'not-empty'
       ERR_TYPE = 'type'
       ERR_IN = 'in'
       ERR_EQ = 'eq'

@@ -118,4 +118,29 @@ RSpec.describe Saphyr::Asserts::BaseAssert do
       end
     end
   end
+
+  describe '#assert_not_empty' do
+    it 'returns true if value is not empty' do
+      expect(subject.assert_not_empty('some value', errors)).to be true
+      expect(errors).to be_empty
+    end
+
+    context 'when no error code is provided' do
+      it 'returns false and adds an error if value is empty' do
+        expect(subject.assert_not_empty('', errors)).to be false
+        expect(errors.size).to eq 1
+        expect(errors.first[:type]).to eq 'not-empty'
+        expect(errors.first[:data][:_val]).to eq ''
+      end
+    end
+
+    context 'when a custom error code is provided' do
+      it 'returns false and adds an error if value is not in values' do
+        expect(subject.assert_not_empty('', errors, 'mycode')).to be false
+        expect(errors.size).to eq 1
+        expect(errors.first[:type]).to eq 'mycode'
+        expect(errors.first[:data][:_val]).to eq ''
+      end
+    end
+  end
 end
