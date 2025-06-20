@@ -4,7 +4,7 @@ By default the `Saphyr` library is including many field types.
 
 ## Common options
 
-All field type have the common `:required`, `:nullable` and `:nullable` options.
+All field type have the common `:required`, `:nullable` and `:default` options.
 
 ## String
 
@@ -15,16 +15,14 @@ Here is an example with all possible options for `:string` type:
 ```ruby
 class MyValidator < Saphyr::Validator
   field :name,      :string
-  field :name,      :string,  eq: 'v1.1'               # Field name can be a
-  field "name",     :string,  min: 5, max: 50          # Symbol or a String
-  field "name",     :string,  max: 50
-  field "name",     :string,  len: 15
-  field :name,      :string,  len: 15, regexp: /^[a-f0-9]+$/
-  field :name,      :string,  regexp: /^[A-Z0-9]{15}$/
-  field :name,      :string,  in: ['jpg', 'png', 'gif']
-
-
-  field :location,  :string,  required: false, min: 10
+  field :version,   :string,  eq: 'v1.1'               # Field name can be a
+  field "fname",    :string,  min: 5, max: 50          # Symbol or a String
+  field "lname",    :string,  max: 50
+  field "info",     :string,  len: 15
+  field :hexa,      :string,  len: 15, regexp: /^[a-f0-9]+$/
+  field :nid,       :string,  regexp: /^[A-Z0-9]{15}$/
+  field :extension, :string,  in: ['jpg', 'png', 'gif']
+  field :location,  :string,  required: false, min: 10, default: 'here'
   field :info,      :string,  nullable: true, max: 1024
 end
 ```
@@ -32,7 +30,6 @@ end
 - If you use `:eq` option then you cannot use any of the other options
 - If you use `:len` option then you cannot use `:min` and `:max` options
 - If you use `:in` option then you cannot use any of the other options
-
 
 ## Integer
 
@@ -42,15 +39,14 @@ Here is an example with all possible options for `:integer` type:
 
 ```ruby
 class MyValidator < Saphyr::Validator
-  field :name,  :integer
-  field :name,  :integer,  eq: 'v1.1'
-  field :name,  :integer,  gt: 0
-  field :name,  :integer,  lt: 50
-  field :name,  :integer,  gte: 5, lte: 50
-  field :name,  :integer,  in: ['jpg', 'png', 'gif']
-
-  field :count,  :integer,  required: false, gte: 10
-  field :round,  :integer,  nullable: true, lte: 1024
+  field :id,       :integer,  gt: 0
+  field :nb,       :integer
+  field :version,  :integer,  eq: '101'
+  field :value,    :integer,  lt: 50
+  field :range,    :integer,  gte: 5, lte: 50
+  field :velocity, :integer,  in: [10, 20, 30, 40]
+  field :count,    :integer,  required: false, gte: 10, default: 20
+  field :round,    :integer,  nullable: true, lte: 1024
 end
 ```
 
@@ -65,14 +61,13 @@ Here is an example with all possible options for `:float` type:
 
 ```ruby
 class MyValidator < Saphyr::Validator
-  field :name,  :float
-  field :name,  :float,  eq: 15.1
-  field :name,  :float,  gt: 0
-  field :name,  :float,  lt: 50
-  field :name,  :float,  gte: 5, lte: 50
-  field :name,  :float,  in: ['jpg', 'png', 'gif']
-
-  field :price,     :float,  required: false, gte: 10
+  field :value,     :float
+  field :velocity,  :float,  eq: 15.1
+  field :x_axis,    :float,  gt: 0.0
+  field :y_axis,    :float,  lt: 50
+  field :z_axis,    :float,  gte: 5, lte: 50
+  field :focale,    :float,  in: [3.14, 1.618, 6.35]
+  field :price,     :float,  required: false, gte: 10, default: 22.2
   field :discount,  :float,  nullable: true, lte: 1024
 end
 ```
@@ -88,12 +83,120 @@ Here is an example with all possible options for `:boolean` type:
 
 ```ruby
 class MyValidator < Saphyr::Validator
-  field :name,  :boolean
-  field :name,  :boolean,  eq: true
-  field :name,  :boolean,  eq: false
-
-  field :active,     :boolean,  required: false
+  field :payed,   :boolean
+  field :valid,   :boolean,  eq: true
+  field :option,  :boolean,  eq: false
+  field :active,     :boolean,  required: false, default: true
   field :processed,  :boolean,  nullable: true
+end
+```
+
+## Email
+
+No options allowed for the `:email` type.
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :email,  :email
+end
+```
+
+## URI and URL
+
+No options allowed for the `:uri` and `:url` types.
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :email,    :uri       # valid@email.com
+  field :isbn,     :uri       # urn:isbn:0451450523
+  field :location, :uri       # https://example.com/page.html
+
+  field :site,     :url       # http://www.test.com/
+  field :blog,     :url       # http://test.com/page.html
+end
+```
+
+## Base64
+
+Authorized options for the `:b64` type: `[:strict]`
+
+Here is an example with all possible options for `:b64` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :content,  :b64                    # By default :strict == true
+  field :text,     :b64,  strict: false
+end
+```
+
+In strict mode `:strict == true`:
+
+- Line breaks are not allowed
+- Padding must be correct (length % 4 == 0)
+
+Not in strict mode `:strict == false`:
+
+- Line breaks are allowed
+- Padding is not required
+
+## IP
+
+Authorized options for the `:ip` type: `[:kind]`
+
+Here is an example with all possible options for `:ip` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :web1,   :ip                 # Can be ipv4 or ipv6
+  field :db,     :ip,  kind: :ipv4   # Must be an ipv4
+  field :cache,  :ip,  kind: :ipv6   # Must be an ipv6
+end
+```
+
+## Country (ISO-3166-1 alpha 2/3)
+
+Authorized options for the `:iso_country` type: `[:alpha]`
+
+Here is an example with all possible options for `:iso_country` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :country1,  :iso_country              # Default : ISO-3166-1 alpha-2
+  field :country2,  :iso_country, alpha: 2
+  field :country3,  :iso_country, alpha: 3
+end
+```
+
+- `:alpha = 2` : Mean ISO-3166-1 alpha-2
+- `:alpha = 3` : Mean ISO-3166-1 alpha-3
+
+## Language (ISO-639-1, ISO-639-2)
+
+Authorized options for the `:iso_lang` type: `[:version]`
+
+Here is an example with all possible options for `:iso_lang` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :lang1,  :iso_lang                 # Default : ISO-639-1
+  field :lang2,  :iso_lang, version: 1
+  field :lang3,  :iso_lang, version: 2
+end
+```
+
+- `:version = 1` : Mean ISO-639-1
+- `:version = 2` : Mean ISO-639-2
+
+## DateTime
+
+Authorized options for the `:datetime` type: `[:format]`
+
+Here is an example with all possible options for `:format` type:
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :datetime1,  :datetime            # Any valid format
+  field :datetime2,  :datetime, format: '%d/%m/%Y %H:%M:%S'
 end
 ```
 
@@ -127,7 +230,7 @@ class MyValidator < Saphyr::Validator
   #                             |                                  |
   # Size of array must be: 1 >= s <= 10                            |
   #                                                                |
-  #               This 'opts' are for the element of array, ie: 'string'
+  #               This 'opts' are for the elements of the array, ie: 'string' type
 end
 ```
 
@@ -147,7 +250,7 @@ data = {
 class MyValidator < Saphyr::Validator
   schema :tag do
     field :id,     :integer,  gt: 0
-    field :label,  :string,   min: 5, max: 30
+    field :label,  :string,   min: 2, max: 30
   end
 
   field :code,  :string,  min: 5,  max: 10

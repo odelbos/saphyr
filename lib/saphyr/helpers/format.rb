@@ -112,6 +112,14 @@ module Saphyr
             return 'Not nullable'
           end
 
+          # ------------------------------------
+          # Common
+          # ------------------------------------
+          # invalid
+          if type.end_with? 'invalid'
+            return "Invalid format, got: '#{data[:_val]}'"
+          end
+
           'unknown'
         end
       end

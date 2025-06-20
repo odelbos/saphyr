@@ -41,7 +41,7 @@ module Saphyr
       # lookup into the global schemas.
       # @param name [Symbol] The name of the schema.
       # @return [Saphyr::Schema]
-      # @rmaise [Saphyr::Error] if no schema was found.
+      # @raise [Saphyr::Error] if no schema was found.
       def find_schema(name)
         @validators.each do |validator|
           schema = validator.find_schema name
