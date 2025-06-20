@@ -82,11 +82,7 @@ module Saphyr
       private
 
         def do_validate(ctx, name, value, errors)
-          if value.empty?
-            add_error value, errors
-            return
-          end
-
+          return unless assert_not_empty value, errors
           if @opts[:alpha] == 2
             add_error value, errors unless ALPHA_2.include? value
           else

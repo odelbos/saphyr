@@ -84,7 +84,7 @@ RSpec.describe Saphyr::Fields::B64Field do
         it 'return with error (emtpy string)' do
           errors = subject.send :validate, nil, 'content', ''
           expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq prefix + ':invalid'
+          expect(errors.first[:type]).to eq prefix + ':not-empty'
           expect(errors.first[:data][:_val]).to eq ''
         end
 
@@ -123,7 +123,7 @@ RSpec.describe Saphyr::Fields::B64Field do
         it 'return with error (empty string)' do
           errors = subject.send :validate, nil, 'content', ''
           expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq prefix + ':invalid'
+          expect(errors.first[:type]).to eq prefix + ':not-empty'
           expect(errors.first[:data][:_val]).to eq ''
         end
 

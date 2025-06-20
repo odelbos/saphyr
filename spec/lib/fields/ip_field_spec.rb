@@ -83,7 +83,7 @@ RSpec.describe Saphyr::Fields::IpField do
         it 'return with error on emtpy string' do
           errors = subject.send :validate, nil, 'host', ''
           expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq prefix + ':invalid'
+          expect(errors.first[:type]).to eq prefix + ':not-empty'
           expect(errors.first[:data][:_val]).to eq ''
         end
 
@@ -101,7 +101,7 @@ RSpec.describe Saphyr::Fields::IpField do
         it 'return with error on emtpy string' do
           errors = subject.send :validate, nil, 'host', ''
           expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq prefix + ':invalid'
+          expect(errors.first[:type]).to eq prefix + ':not-empty'
           expect(errors.first[:data][:_val]).to eq ''
         end
 
@@ -126,7 +126,7 @@ RSpec.describe Saphyr::Fields::IpField do
         it 'return with error on emtpy string' do
           errors = subject.send :validate, nil, 'host', ''
           expect(errors.size).to eq 1
-          expect(errors.first[:type]).to eq prefix + ':invalid'
+          expect(errors.first[:type]).to eq prefix + ':not-empty'
           expect(errors.first[:data][:_val]).to eq ''
         end
 

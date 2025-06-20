@@ -93,11 +93,7 @@ module Saphyr
       private
 
         def do_validate(ctx, name, value, errors)
-          if value.empty?
-            add_error value, errors
-            return
-          end
-
+          return unless assert_not_empty value, errors
           if @opts[:version] == 1
             add_error value, errors unless VERSION_1.include? value
           else

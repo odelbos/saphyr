@@ -73,6 +73,13 @@ RSpec.describe Saphyr::Fields::IsoCountryField do
       subject { described_class.new }
 
       context 'when :alpha option equals to 2 (default)' do
+        it 'return with error on emtpy string' do
+          errors = subject.send :validate, nil, 'host', ''
+          expect(errors.size).to eq 1
+          expect(errors.first[:type]).to eq prefix + ':not-empty'
+          expect(errors.first[:data][:_val]).to eq ''
+        end
+
         it 'return with error' do
           errors = subject.send :validate, nil, 'country', 'not-country'
           expect(errors.size).to eq 1
@@ -83,6 +90,13 @@ RSpec.describe Saphyr::Fields::IsoCountryField do
 
       context 'when :alpha option is set to 2' do
         subject { described_class.new({alpha: 2}) }
+        it 'return with error on emtpy string' do
+          errors = subject.send :validate, nil, 'host', ''
+          expect(errors.size).to eq 1
+          expect(errors.first[:type]).to eq prefix + ':not-empty'
+          expect(errors.first[:data][:_val]).to eq ''
+        end
+
         it 'return with error' do
           errors = subject.send :validate, nil, 'country', 'not-country'
           expect(errors.size).to eq 1
@@ -93,6 +107,13 @@ RSpec.describe Saphyr::Fields::IsoCountryField do
 
       context 'when :alpha option is set to 3' do
         subject { described_class.new({alpha: 3}) }
+        it 'return with error on emtpy string' do
+          errors = subject.send :validate, nil, 'host', ''
+          expect(errors.size).to eq 1
+          expect(errors.first[:type]).to eq prefix + ':not-empty'
+          expect(errors.first[:data][:_val]).to eq ''
+        end
+
         it 'return with error' do
           errors = subject.send :validate, nil, 'country', 'not-country'
           expect(errors.size).to eq 1
