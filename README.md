@@ -5,16 +5,27 @@
 # Saphyr
 
 The purpose of `Saphyr` gem is to provide a simple DSL to easily and quickly
-design a validation schema for JSON document (or `Hash` structure).
+design a validation schema for JSON document (or `Hash`/`Array` structure).
 
-_**Note :**_
+**Features :**
 
-There are already a bunch of gem doing this job, like: `json-schema`, `json_schema`,
-`json_schemer` all based on the [JSON Standard](https://json-schema.org/understanding-json-schema/index.html) to define a validation schema.
-It's a really nice crafted standard but his usage is not really intuitive.
+- Provide a DSL to define validation schemas
+- Provide some standard field types
+- Define you own custom field type
+- Conditional field validation
+- Field Casting
 
-Actually the `Saphyr` gem volontary does not support the `json-schema` standard to describe
-the validation schema and focus on simplicity with an easy to use DSL.
+**Standard field types :**
+
+- Integer, Float, String, Boolean
+- Email
+- URI
+- URL
+- Base64
+- ipv4 / ipv6
+- Country (ISO-3166-1 alpha 2/3)
+- Language (ISO-639-1, ISO-639-2)
+- DateTime
 
 ## Generate documentation
 
@@ -348,7 +359,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 - [X] Add conditional field
 - [X] Add field casting
 - [X] Add default value to field
-- [ ] Add more internal fields (b64, b62, uuid, ipv4, ipv6, ...)
+- [X] Add more internal fields (b64, b62, uuid, ipv4, ipv6, ...)
 
 # Author
 
