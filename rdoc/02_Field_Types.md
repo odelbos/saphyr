@@ -91,6 +91,16 @@ class MyValidator < Saphyr::Validator
 end
 ```
 
+## Email
+
+No options allowed for the `:email` type.
+
+```ruby
+class MyValidator < Saphyr::Validator
+  field :email,  :email
+end
+```
+
 ## URI and URL
 
 No options allowed for the `:uri` and `:url` types.

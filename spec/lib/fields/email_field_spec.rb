@@ -28,6 +28,13 @@ RSpec.describe Saphyr::Fields::EmailField do
     end
 
     context 'when invalid data' do
+      it 'return with error on emtpy string' do
+        errors = subject.send :validate, nil, 'host', ''
+        expect(errors.size).to eq 1
+        expect(errors.first[:type]).to eq prefix + ':not-empty'
+        expect(errors.first[:data][:_val]).to eq ''
+      end
+
       it 'return with error' do
         errors = subject.send :validate, nil, 'email', 'bad email'
         expect(errors.size).to eq 1

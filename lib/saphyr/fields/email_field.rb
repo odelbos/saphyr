@@ -13,6 +13,7 @@ module Saphyr
       private
 
         def do_validate(ctx, name, value, errors)
+          return unless assert_not_empty value, errors
           unless value =~ ::URI::MailTo::EMAIL_REGEXP
             errors << {
               type: err('invalid'),
