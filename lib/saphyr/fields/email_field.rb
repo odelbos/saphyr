@@ -14,14 +14,7 @@ module Saphyr
 
         def do_validate(ctx, name, value, errors)
           return unless assert_not_empty value, errors
-          unless value =~ ::URI::MailTo::EMAIL_REGEXP
-            errors << {
-              type: err('invalid'),
-              data: {
-                _val: value
-              }
-            }
-          end
+          assert_string_regexp ::URI::MailTo::EMAIL_REGEXP, value, errors
         end
     end
   end

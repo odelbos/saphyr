@@ -38,7 +38,7 @@ RSpec.describe Saphyr::Fields::EmailField do
       it 'return with error' do
         errors = subject.send :validate, nil, 'email', 'bad email'
         expect(errors.size).to eq 1
-        expect(errors.first[:type]).to eq prefix + ':invalid'
+        expect(errors.first[:type]).to eq prefix + ':regexp'
         expect(errors.first[:data][:_val]).to eq 'bad email'
       end
     end
