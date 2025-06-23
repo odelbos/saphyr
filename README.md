@@ -4,16 +4,15 @@
 
 # Saphyr
 
-The purpose of `Saphyr` gem is to provide a simple DSL to easily and quickly
-design a validation schema for JSON document (or `Hash`/`Array` structure).
+Simple DSL to design validation schemas for `JSON` document (or `Hash`/`Array` structure).
 
 **Features :**
 
 - Provide a DSL to define validation schemas
 - Provide some standard field types
 - Define you own custom field type
-- Conditional field validation
-- Field Casting
+- Conditional fields validation
+- Field casting (before validation)
 
 **Standard field types :**
 
@@ -26,6 +25,8 @@ design a validation schema for JSON document (or `Hash`/`Array` structure).
 - Country (ISO-3166-1 alpha 2/3)
 - Language (ISO-639-1, ISO-639-2)
 - DateTime
+
+See `examples` folder for some basic usages.
 
 ## Generate documentation
 

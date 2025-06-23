@@ -2,14 +2,16 @@
 
 require_relative "lib/saphyr/version"
 
+msg = "Simple DSL to design validation schemas for `JSON` document (or `Hash`/`Array` structure)"
+
 Gem::Specification.new do |spec|
   spec.name = "saphyr"
   spec.version = Saphyr::VERSION
   spec.authors = ["odelbos"]
   spec.email = ["od@phibox.com"]
 
-  spec.summary = "The saphyr gem is used to validate JSON document."
-  spec.description = "The purpose of Saphyr is to provide a nice and simple DSL to easily and quickly design a validation schema for JSON document."
+  spec.summary = msg
+  spec.description = msg
   spec.homepage = "https://github.com/odelbos/saphyr"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.7.0"
