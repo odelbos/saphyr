@@ -2,7 +2,7 @@
 
 require_relative "lib/saphyr/version"
 
-msg = "Simple DSL to design validation schemas for `JSON` document (or `Hash`/`Array` structure)"
+msg = "Simple DSL to design validation schemas for JSON document (or Hash / Array structure)"
 
 Gem::Specification.new do |spec|
   spec.name = "saphyr"

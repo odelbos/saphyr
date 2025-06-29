@@ -1,4 +1,11 @@
 -----------------------------------------------------------------
+Version: 0.6.1 - 2025-06-29
+
+- Refactor email_field to use assert_string_regexp
+- Make get() variadic to fetch deep fields
+- Add get_safe()
+
+-----------------------------------------------------------------
 Version: 0.6.0 - 2025-06-21
 
 - Add standard field types
