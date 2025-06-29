@@ -119,11 +119,80 @@ module Saphyr
     end
 
     # Get a field from the data to validate.
-    # @param field [String | Symbol] The field name
+    #
+    # Use variadic arguments to access deep fields.
+    #
+    # Examples:
+    #
+    #     data = {
+    #       "id" => 3465,
+    #       "info" => {
+    #         "suffix" => ["gif", "jpg", "png"]
+    #         "size" => 34056
+    #       }
+    #     }
+    #
+    #     get("id")                    # => 3435
+    #     get("info", "suffix", 1)     # => "jpg"
+    #     get("info", "size")          # => 34056
+    #     get("name")                  # => raise an exception
+    #
     # @return The field value
-    def get(field)
-      data = @ctx.data_to_validate
-      data[field.to_s]
+    # @raise [Saphyr::Error] If field does not exists.
+    def get(*args)
+      status, value = get_safe(*args)
+      raise Saphyr::Error.new 'Requested field does not exists' if status == :err
+      value
+    end
+
+    # Get a field from the data to validate.
+    # (Same as +get()+ but never raise an exception).
+    #
+    # Use variadic arguments to access deep fields.
+    #
+    # Examples:
+    #
+    #     data = {
+    #       "id" => 3465,
+    #       "info" => {
+    #         "suffix" => ["gif", "jpg", "png"]
+    #         "size" => 34056
+    #       }
+    #     }
+    #
+    #     get("id")                    # => [:ok, 3435]
+    #     get("info", "suffix", 1)     # => [:ok, "jpg"]
+    #     get("info", "size")          # => [:ok, 34056]
+    #     get("name")                  # => [:err, :not_exists]
+    #     get("info", "suffix", 5)     # => [:err, :not_index]
+    #     get("info", 3)               # => [:err, :not_array]
+    #
+    # @return An array where first element is the status and second element is the result.
+    def get_safe(*args)
+      do_get_safe @data, args.reverse
+    end
+
+    private
+
+    def do_get_safe(data, args)
+      return [:ok, data] if args.size == 0
+      key = args.pop
+      if data.is_a? Hash
+        key = key.to_s if key.is_a? Symbol
+        if data.key? key
+          return do_get_safe data[key], args
+        else
+          return [:err, :not_exists]
+        end
+      elsif data.is_a? Array
+        if key.is_a? Integer
+          return do_get_safe data[key], args
+        else
+          return [:err, :not_index]
+        end
+      else
+        return [:err, :not_array]
+      end
     end
   end
 end
